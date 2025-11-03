@@ -222,6 +222,12 @@ export default function AboutUs() {
       rank: 11,
       image: getTeamImageUrl("Noman Nasir.jpeg"),
     },
+    {
+      name: "Abdul Manan",
+      designation: "Social Media & Outreach Associate",
+      rank: 12,
+      image: getTeamImageUrl("14.jpg"),
+    },
   ];
 
   return (

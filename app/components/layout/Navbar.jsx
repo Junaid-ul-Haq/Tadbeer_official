@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { logout } from "@/redux/slices/authSlice";
 export default function Navbar() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const pathname = usePathname();
   const { user } = useSelector((state) => state.auth);
   const isLoggedIn = !!user;
 
@@ -25,6 +26,40 @@ export default function Navbar() {
   const handleLogout = () => {
     dispatch(logout());
     router.push("/login");
+  };
+
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    
+    const scrollToContact = () => {
+      const footer = document.getElementById("contact");
+      if (footer) {
+        footer.scrollIntoView({ behavior: "smooth", block: "end" });
+      } else {
+        // Fallback: scroll to bottom of page
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+      }
+    };
+    
+    // If already on home page, scroll to footer immediately
+    if (pathname === "/") {
+      scrollToContact();
+    } else {
+      // Navigate to home page first, then scroll after navigation completes
+      router.push("/");
+      // Use multiple attempts to ensure footer is available after navigation
+      const attemptScroll = (attempts = 0) => {
+        if (attempts > 10) return; // Max 10 attempts (1 second)
+        
+        const footer = document.getElementById("contact");
+        if (footer) {
+          scrollToContact();
+        } else {
+          setTimeout(() => attemptScroll(attempts + 1), 100);
+        }
+      };
+      setTimeout(() => attemptScroll(), 200);
+    }
   };
 
   return (
@@ -91,13 +126,13 @@ export default function Navbar() {
               </div>
             </div>
 
-            <Link
-              href="/contact"
-              className="relative group hover:text-[var(--accent-color)] transition-colors"
+            <button
+              onClick={handleContactClick}
+              className="relative group hover:text-[var(--accent-color)] transition-colors cursor-pointer"
             >
               Contact
               <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[var(--accent-color)] transition-all duration-300 group-hover:w-full"></span>
-            </Link>
+            </button>
           </nav>
 
           {/* ✅ Login / Logout */}

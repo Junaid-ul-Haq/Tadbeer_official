@@ -11,6 +11,7 @@ import { FaXTwitter } from "react-icons/fa6";
 export default function Footer() {
   return (
     <footer
+      id="contact"
       className="relative bg-gradient-to-b from-[#0A0A0A] via-[#0C0C0C] to-[#141414] 
       text-gray-300 border-t border-white/10 py-20 px-6 md:px-20 font-[var(--font-family)] overflow-hidden"
     >
