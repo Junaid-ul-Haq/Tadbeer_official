@@ -6,9 +6,6 @@ import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { logout } from "@/redux/slices/authSlice";
-import { Mail, Phone, MapPin } from "lucide-react";
-import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6"; 
 export default function Navbar() {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -16,15 +13,10 @@ export default function Navbar() {
   const isLoggedIn = !!user;
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const [topBarVisible, setTopBarVisible] = useState(true);
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsScrolled(currentScrollY > 50);
-      setTopBarVisible(!(currentScrollY > lastScrollY && currentScrollY > 50));
-      lastScrollY = currentScrollY;
+      setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -37,73 +29,25 @@ export default function Navbar() {
 
   return (
     <>
-      {/* 🔹 Top Contact Bar */}
-      <div
-        className={`bg-[var(--surface-color)] text-[var(--text-color)] font-poppins font-semibold text-sm sm:text-base 
-        px-6 py-3 border-b border-white/10 backdrop-blur-md transition-all duration-500 ease-in-out
-        ${topBarVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
-        fixed top-0 left-0 w-full z-[1000] shadow-[0_1px_10px_rgba(143,194,65,0.15)]`}
-      >
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 md:gap-10">
-          {/* Left: Contact Info */}
-          <div className="flex flex-wrap justify-center md:justify-start items-center gap-x-6 gap-y-1">
-            <div className="flex items-center gap-2 hover:text-[var(--primary-color)] transition-colors duration-300">
-              <Mail className="w-5 h-5 text-[var(--primary-color)]" />
-              <span>info@tadbeer.org</span>
-            </div>
-            <div className="flex items-center gap-2 hover:text-[var(--primary-color)] transition-colors duration-300">
-              <Phone className="w-5 h-5 text-[var(--primary-color)]" />
-              <span>+92 300 1234567</span>
-            </div>
-            <div className="hidden md:flex items-center gap-2 hover:text-[var(--primary-color)] transition-colors duration-300">
-              <MapPin className="w-5 h-5 text-[var(--primary-color)]" />
-              <span>Lahore, Pakistan</span>
-            </div>
-          </div>
-
-          {/* Right: Social Icons */}
-         <div className="flex gap-5 items-center">
-  {[
-    { Icon: FaFacebook, link: "https://web.facebook.com/tadbeerofficial1" },
-    { Icon: FaInstagram, link: "https://www.instagram.com/tadbeerofficial?fbclid=IwY2xjawNLDYpleHRuA2FlbQIxMABicmlkETA4bVFLeW5paHZYeHdVUmRLAR7hJvaG86pORayMMZe_8ZkoK0NS0Zi4MRwa2MFt6sznMnjeIp7ZhzLEdi4dfA_aem_AHhYs999ZunLiRTZvMYG_g" },
-    { Icon: FaLinkedin, link: "https://www.linkedin.com/company/tadbeerofficial/?viewAsMember=true" },
-   
-        { Icon: FaXTwitter, link: "https://x.com/CentreTadb42387" }, // ✅ X icon
-  ].map(({ Icon, link }, idx) => (
-    <a
-      key={idx}
-      href={link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="hover:text-[var(--accent-color)] transition-all duration-300 transform hover:scale-110"
-    >
-      <Icon className="w-5 h-5" />
-    </a>
-  ))}
-</div>
-
-        </div>
-      </div>
-
       {/* 🔹 Main Navbar */}
       <header
-        className={`fixed w-full z-[999] transition-all duration-300 ${
-          topBarVisible ? "top-10 md:top-10" : "top-0"
-        } ${
+        className={`fixed w-full z-[999] transition-all duration-300 top-0 overflow-visible ${
           isScrolled
             ? "bg-[var(--surface-color)]/95 backdrop-blur-lg border-b border-white/10 shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
             : "bg-[var(--background-color)]/60 backdrop-blur-sm"
         }`}
       >
-        <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4 font-poppins">
-          {/* ✅ Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="relative w-44 h-20 flex items-center justify-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-3 md:px-4 py-2 sm:py-0.5 md:py-0.5 font-poppins overflow-visible">
+          {/* ✅ Logo - Allowed to overflow - Bigger on mobile */}
+          <Link href="/" className="flex items-center gap-2 sm:gap-1 md:gap-2 overflow-visible relative z-10">
+            <div className="relative w-64 sm:w-52 md:w-72 h-28 sm:h-20 md:h-32 flex items-center justify-center overflow-visible">
               <Image
-                src="/vedios/logo.jpg"
+                src="/vedios/Artboard 1 (2).png"
                 alt="Tadbeer Logo"
                 fill
+                sizes="(max-width: 640px) 256px, (max-width: 768px) 208px, 288px"
                 className="object-contain drop-shadow-[0_0_12px_rgba(143,194,65,0.4)] hover:scale-110 transition-transform duration-300"
+                style={{ mixBlendMode: 'normal', backgroundColor: 'transparent' }}
                 priority
               />
             </div>

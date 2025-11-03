@@ -67,7 +67,7 @@ export default function Features() {
         modules={[Autoplay, Pagination]}
         autoplay={{ delay: 3500, disableOnInteraction: false }}
         pagination={{ clickable: true }}
-        loop
+        loop={false}
         spaceBetween={20}
         slidesPerView={1}
         breakpoints={{

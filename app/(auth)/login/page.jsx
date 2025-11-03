@@ -55,10 +55,10 @@ export default function LoginPage() {
         >
           <div className="mb-8">
             <Image
-              src="/vedios/0.png"
+              src="/vedios/Artboard 1 (2).png"
               alt="Tadbeer Logo"
               width={200}
-              height={200}
+              height={100}
               className="mx-auto drop-shadow-[0_0_25px_rgba(24,186,214,0.5)]"
             />
           </div>

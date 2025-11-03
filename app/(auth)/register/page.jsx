@@ -66,10 +66,10 @@ export default function SignupPage() {
           className="relative z-10 text-center flex flex-col items-center"
         >
           <Image
-            src="/vedios/0.png"
+            src="/vedios/Artboard 1 (2).png"
             alt="Tadbeer Logo"
-            width={220}
-            height={220}
+            width={200}
+            height={100}
             className="mx-auto drop-shadow-[0_0_25px_rgba(24,186,214,0.5)] mb-6"
           />
           <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight drop-shadow-[0_0_15px_rgba(143,194,65,0.4)]">

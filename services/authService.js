@@ -6,6 +6,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL + "/auth";
 const signupUser = async (formData) => {
   const response = await axios.post(`${API_URL}/signup`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
+    withCredentials: true,
   });
 
   if (response.data.token) {
@@ -16,7 +17,9 @@ const signupUser = async (formData) => {
 
 // 🟢 Login
 const loginUser = async (formData) => {
-  const response = await axios.post(`${API_URL}/login`, formData);
+  const response = await axios.post(`${API_URL}/login`, formData, {
+    withCredentials: true,
+  });
 
   if (response.data.token) {
     localStorage.setItem("user", JSON.stringify(response.data));
@@ -38,6 +41,7 @@ const completeProfile = async (formData) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    withCredentials: true,
   });
 
   // ✅ Update localStorage with new user data

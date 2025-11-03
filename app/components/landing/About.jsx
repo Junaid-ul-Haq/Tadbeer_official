@@ -19,21 +19,37 @@ const CountUp = dynamic(() => import("react-countup"), { ssr: false });
 
 function ClientCountUp({ number, suffix, icon, title }) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="flex flex-col items-center text-center">
+        {icon}
+        <div className="text-4xl md:text-5xl font-bold text-[var(--primary-color)] drop-shadow-[0_0_12px_rgba(143,194,65,0.7)]">
+          0{suffix}
+        </div>
+        <p className="text-gray-300 mt-3 text-base md:text-lg font-medium">
+          {title}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center text-center">
       {icon}
-      {mounted && (
+      <div className="text-4xl md:text-5xl font-bold text-[var(--primary-color)] drop-shadow-[0_0_12px_rgba(143,194,65,0.7)]">
         <CountUp
           start={0}
           end={number}
           duration={2.5}
-          enableScrollSpy
+          enableScrollSpy={false}
           suffix={suffix}
-          className="text-4xl md:text-5xl font-bold text-[var(--primary-color)] drop-shadow-[0_0_12px_rgba(143,194,65,0.7)]"
         />
-      )}
+      </div>
       <p className="text-gray-300 mt-3 text-base md:text-lg font-medium">
         {title}
       </p>
@@ -46,6 +62,7 @@ export default function AboutUs() {
     hidden: { opacity: 0, y: 40 },
     show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
   };
+
 
   const missionVisionValues = [
     {
@@ -108,16 +125,102 @@ export default function AboutUs() {
 
   const journeyData = [
     {
-      year: "2015",
-      text: "Founded Tadbeer to provide equitable education and empowerment opportunities.",
-    },
-    {
-      year: "2018",
-      text: "Expanded to healthcare and women empowerment initiatives across regions.",
+      year: "2012",
+      text: "Established the Saleemah Khanum Welfare Foundation with a vision to serve the community and promote social welfare.",
     },
     {
       year: "2022",
-      text: "Reached over 10,000 lives through education, healthcare, and community programs.",
+      text: "Marked a decade of meaningful service by celebrating the Foundation's 10th anniversary and reflecting on key accomplishments.",
+    },
+    {
+      year: "2023",
+      text: "Redefined our mission with a renewed commitment to Women Empowerment and Youth Development, emphasizing Education, Career Counseling, Job Placement, and Entrepreneurial Growth.",
+    },
+    {
+      year: "2024",
+      text: "Engaged in comprehensive planning to strengthen our impact and expand program outreach.",
+    },
+    {
+      year: "2025",
+      text: "Formally introduced the Tadbeer Resource Center, sponsored by the Saleemah Khanum Welfare Foundation, during the seminar \"Hope in Action.\" The event brought together prominent representatives from community service and philanthropic organizations.",
+    },
+  ];
+
+  // Get frontend public folder path for team images
+  const getTeamImageUrl = (filename) => {
+    // Use frontend public folder - no backend needed
+    // Files in public/vedios/team/ are accessible at /vedios/team/filename
+    // Next.js handles spaces in filenames automatically
+    return `/vedios/team/${filename}`;
+  };
+
+  // Team members ordered by rank
+  const teamMembers = [
+    {
+      name: "Mr. Zia ul Haq",
+      designation: "President",
+      rank: 1,
+      image: getTeamImageUrl("Mr Zia ul Haq preident.jpeg"),
+    },
+    {
+      name: "Prof. Dr. Akhtar Ali Saleemi",
+      designation: "Vice President",
+      rank: 2,
+      image: getTeamImageUrl("Prof. Dr .Akhtar Ali Saleemi.jpeg"),
+    },
+    {
+      name: "Muhammad Saeed Akhtar",
+      designation: "Vice Chairman Advisory Board",
+      rank: 3,
+      image: getTeamImageUrl("Saleem Akhtar.jpeg"),
+    },
+    {
+      name: "Uzma Kamal",
+      designation: "Member Advisory Board",
+      rank: 4,
+      image: getTeamImageUrl("15 uzma kamal.jpg"),
+    },
+    {
+      name: "Abdul Gaffar",
+      designation: "Member Advisory Board",
+      rank: 5,
+      image: getTeamImageUrl("13-abdul gahfir.jpg"),
+    },
+    {
+      name: "Prof. Dr. Farhat Saleemi",
+      designation: "Team Member",
+      rank: 6,
+      image: getTeamImageUrl("Prof. Dr. Farhat Saleemi.jpeg"),
+    },
+    {
+      name: "Prof. Dr. Tahira Mugal",
+      designation: "Team Member",
+      rank: 7,
+      image: getTeamImageUrl("Prof . Dr .Tahira Mugal.jpeg"),
+    },
+    {
+      name: "Dr. Maira Waqas",
+      designation: "Team Member",
+      rank: 8,
+      image: getTeamImageUrl("Dr Maira Waqas.jpeg"),
+    },
+    {
+      name: "M. Ata-ul-Haq",
+      designation: "Team Member",
+      rank: 9,
+      image: getTeamImageUrl("M. Ata-ul-Haq.jpeg"),
+    },
+    {
+      name: "Muhammad Tariq",
+      designation: "Team Member",
+      rank: 10,
+      image: getTeamImageUrl("Muhammad Tariq.jpeg"),
+    },
+    {
+      name: "Noman Nasir",
+      designation: "Team Member",
+      rank: 11,
+      image: getTeamImageUrl("Noman Nasir.jpeg"),
     },
   ];
 
@@ -203,35 +306,63 @@ export default function AboutUs() {
         </div>
       </motion.div>
 
-      {/* 🔹 Founder Section */}
+      {/* 🔹 Team Members Section */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
-        className="flex flex-col md:flex-row items-center gap-10 bg-[#101010]/90 border border-white/10 rounded-2xl p-10 md:p-16 shadow-[0_0_25px_rgba(143,194,65,0.15)] mb-20 backdrop-blur-lg"
+        className="mb-20 max-w-7xl mx-auto"
       >
-        <div className="w-full md:w-1/3 flex justify-center">
-          <Image
-            src="/vedios/abc.jpeg"
-            alt="Founder"
-            width={400}
-            height={400}
-            className="rounded-2xl object-cover shadow-[0_0_30px_rgba(143,194,65,0.25)]"
-          />
-        </div>
-        <div className="w-full md:w-2/3 text-center md:text-left">
-          <h3 className="text-2xl md:text-3xl font-semibold text-[var(--primary-color)] mb-2">
-            Salimah Khanum
-          </h3>
-          <p className="text-gray-400 mb-3 text-sm md:text-base">
-            Founder & Director, Tadbeer Organization
-          </p>
-          <p className="text-gray-300 leading-relaxed italic md:text-lg">
-            “Education is not charity — it’s empowerment. Our mission is to
-            foster self-reliance and dignity through sustainable initiatives
-            that uplift lives.”
-          </p>
+        <h3 className="text-3xl md:text-4xl font-semibold text-center text-[var(--primary-color)] drop-shadow-[0_0_15px_rgba(143,194,65,0.6)] mb-12">
+          Our Team
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {teamMembers.map((member, index) => (
+            <motion.div
+              key={index}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              className="bg-[#101010]/90 border border-white/10 rounded-2xl p-6 shadow-[0_0_25px_rgba(143,194,65,0.15)] backdrop-blur-lg transition-all duration-300 hover:shadow-[0_0_40px_rgba(143,194,65,0.3)]"
+            >
+              <div className="flex justify-center mb-4">
+                <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(143,194,65,0.25)] bg-[#1a1a1a]">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Try fallback image
+                      if (e.target.src !== "/vedios/abc.jpeg") {
+                        e.target.src = "/vedios/abc.jpeg";
+                      } else {
+                        // If fallback also fails, show placeholder
+                        e.target.style.display = "none";
+                        e.target.parentElement.innerHTML = `
+                          <div class="w-full h-full flex items-center justify-center text-gray-500">
+                            <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="text-center">
+                <h4 className="text-xl md:text-2xl font-semibold text-[var(--primary-color)] mb-2">
+                  {member.name}
+                </h4>
+                <p className="text-gray-400 text-sm md:text-base">
+                  {member.designation}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </motion.div>
 
@@ -278,3 +409,4 @@ export default function AboutUs() {
     </section>
   );
 }
+

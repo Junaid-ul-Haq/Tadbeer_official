@@ -7,6 +7,7 @@ export const businessGrantService = {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
+        credentials: "include",
       });
 
       const data = await res.json().catch(() => ({}));
@@ -24,6 +25,7 @@ export const businessGrantService = {
   getMyGrants: async (token) => {
     const res = await fetch(`${BASE_URL}/business/getMyGrants`, {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || "Failed to fetch your grants");
@@ -33,7 +35,10 @@ export const businessGrantService = {
   getAllGrants: async (token, page = 1, limit = 10) => {
     const res = await fetch(
       `${BASE_URL}/business/getAllGrants?page=${page}&limit=${limit}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      { 
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
+      }
     );
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || "Failed to fetch all grants");
@@ -48,6 +53,7 @@ export const businessGrantService = {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ status }),
+      credentials: "include",
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok)
@@ -58,6 +64,7 @@ export const businessGrantService = {
   getGrantById: async (token, id) => {
     const res = await fetch(`${BASE_URL}/business/get/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok)

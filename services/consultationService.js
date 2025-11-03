@@ -10,6 +10,7 @@ export const consultationService = {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
+      credentials: "include",
     });
 
     const result = await res.json().catch(() => ({}));
@@ -21,6 +22,7 @@ export const consultationService = {
   getCategories: async (token) => {
     const res = await fetch(`${BASE_URL}/consultation/categories`, {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
     });
     const result = await res.json().catch(() => []);
     if (!res.ok) throw new Error(result.message || "Failed to fetch categories");
@@ -31,6 +33,7 @@ export const consultationService = {
   getMyConsultations: async (token) => {
     const res = await fetch(`${BASE_URL}/consultation/getMyConsultations`, {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
     });
     const result = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(result.message || "Failed to fetch your consultations");
@@ -41,7 +44,10 @@ export const consultationService = {
   getAllConsultations: async (token, page = 1, limit = 10) => {
     const res = await fetch(
       `${BASE_URL}/consultation/getAllConsultations?page=${page}&limit=${limit}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      { 
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
+      }
     );
     const result = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(result.message || "Failed to fetch all consultations");
@@ -57,6 +63,7 @@ export const consultationService = {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ status }),
+      credentials: "include",
     });
     const result = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(result.message || "Failed to update consultation status");
@@ -67,6 +74,7 @@ export const consultationService = {
   getConsultationById: async (token, id) => {
     const res = await fetch(`${BASE_URL}/consultation/getById/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
     });
     const result = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(result.message || "Failed to fetch consultation details");

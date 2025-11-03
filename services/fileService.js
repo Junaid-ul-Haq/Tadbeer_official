@@ -9,6 +9,7 @@ export const fetchSecureFile = async (filePath, token) => {
     const response = await axios.get(url, {
       headers: { Authorization: `Bearer ${token}` },
       responseType: "blob",
+      withCredentials: true,
     });
 
     return URL.createObjectURL(response.data);
@@ -56,6 +57,7 @@ export const openProtectedFile = async (filePath, token) => {
     const response = await axios.get(url, {
       headers: { Authorization: `Bearer ${token}` },
       responseType: "blob",
+      withCredentials: true,
     });
 
     console.log("🔹 Response status:", response.status);

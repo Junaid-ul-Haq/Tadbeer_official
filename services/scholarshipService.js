@@ -13,6 +13,7 @@ export const scholarshipService = {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
+      credentials: "include",
     });
 
     const data = await res.json().catch(() => ({}));
@@ -23,6 +24,7 @@ export const scholarshipService = {
   getMyScholarships: async (token) => {
     const res = await fetch(`${BASE_URL}/scholarship/getMyScholarships`, {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || "Failed to fetch your scholarships");
@@ -32,6 +34,7 @@ export const scholarshipService = {
   getAllScholarships: async (token, page = 1, limit = 10) => {
     const res = await fetch(`${BASE_URL}/scholarship/getAllScholarships?page=${page}&limit=${limit}`, {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || "Failed to fetch all scholarships");
@@ -43,6 +46,7 @@ export const scholarshipService = {
       method: "PATCH",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ status }),
+      credentials: "include",
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || "Failed to update status");
@@ -52,6 +56,7 @@ export const scholarshipService = {
   getScholarshipById: async (token, id) => {
     const res = await fetch(`${BASE_URL}/scholarship/get/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || "Failed to fetch scholarship details");
@@ -61,6 +66,7 @@ export const scholarshipService = {
   getDegreeLevels: async (token) => {
     const res = await fetch(`${BASE_URL}/scholarship/degree-levels`, {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || "Failed to fetch degree levels");

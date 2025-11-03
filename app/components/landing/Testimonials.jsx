@@ -76,7 +76,7 @@ export default function Testimonials() {
         effect="fade"
         pagination={{ clickable: true }}
         autoplay={{ delay: 4500, disableOnInteraction: false }}
-        loop={true}
+        loop={testimonials.length > 3}
         slidesPerView={1}
         className="relative max-w-5xl mx-auto"
       >

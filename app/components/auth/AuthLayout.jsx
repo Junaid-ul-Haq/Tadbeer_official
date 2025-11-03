@@ -23,9 +23,9 @@ export default function AuthLayout({ children, title, tagline }) {
 
         {/* Logo & Title */}
         <div className="relative z-10 text-center">
-          <div className="relative w-44 h-44 mx-auto mb-8">
+          <div className="relative w-64 h-32 mx-auto mb-8">
             <Image
-              src="/vedios/0.png"
+              src="/vedios/Artboard 1 (2).png"
               alt="Tadbeer Logo"
               fill
               className="object-contain drop-shadow-2xl animate-fadeIn"
