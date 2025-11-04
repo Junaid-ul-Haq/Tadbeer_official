@@ -1,9 +1,10 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
 
 export const scholarshipService = {
-  createScholarship: async (token, degreeLevel, files) => {
+  createScholarship: async (token, degreeLevel, course, files) => {
     const formData = new FormData();
     formData.append("degreeLevel", degreeLevel);
+    formData.append("course", course);
 
     if (files && files.length > 0) {
       Array.from(files).forEach(file => formData.append("documents", file));
@@ -71,5 +72,95 @@ export const scholarshipService = {
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || "Failed to fetch degree levels");
     return data.levels || [];
+  },
+
+  // Scholarship Opportunities (Admin)
+  createOpportunity: async (token, opportunityData) => {
+    const res = await fetch(`${BASE_URL}/scholarship/opportunities/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(opportunityData),
+      credentials: "include",
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Failed to create opportunity");
+    return data;
+  },
+
+  getAllOpportunities: async (token, page = 1, limit = 10, search = "") => {
+    const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
+    const res = await fetch(
+      `${BASE_URL}/scholarship/opportunities?page=${page}&limit=${limit}${searchParam}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
+      }
+    );
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Failed to fetch opportunities");
+    return data;
+  },
+
+  updateOpportunity: async (token, id, opportunityData) => {
+    const res = await fetch(`${BASE_URL}/scholarship/opportunities/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(opportunityData),
+      credentials: "include",
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Failed to update opportunity");
+    return data;
+  },
+
+  deleteOpportunity: async (token, id) => {
+    const res = await fetch(`${BASE_URL}/scholarship/opportunities/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Failed to delete opportunity");
+    return data;
+  },
+
+  // User: Search opportunities by degree and course
+  searchOpportunities: async (token, degreeLevel, course) => {
+    const res = await fetch(
+      `${BASE_URL}/scholarship/opportunities/search?degreeLevel=${encodeURIComponent(degreeLevel)}&course=${encodeURIComponent(course)}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
+      }
+    );
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Failed to search opportunities");
+    return data;
+  },
+
+  getAllCourses: async (token) => {
+    const res = await fetch(`${BASE_URL}/scholarship/courses`, {
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Failed to fetch courses");
+    return data.courses || [];
+  },
+
+  getAllCountries: async (token) => {
+    const res = await fetch(`${BASE_URL}/scholarship/countries`, {
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Failed to fetch countries");
+    return data.countries || [];
   },
 };

@@ -3,8 +3,9 @@ import axios from "axios";
 // Fetches a protected file and returns a blob URL
 export const fetchSecureFile = async (filePath, token) => {
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${filePath}`;
-    console.log("Fetching secure file:", { base: process.env.NEXT_PUBLIC_API_BASE_URL, filePath, url });
+    const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+    const url = `${BASE_URL}${filePath}`;
+    console.log("Fetching secure file:", { base: BASE_URL, filePath, url });
 
     const response = await axios.get(url, {
       headers: { Authorization: `Bearer ${token}` },
@@ -47,7 +48,8 @@ export const openProtectedFile = async (filePath, token) => {
     }
 
     // Use the authenticated API route: /api/files/:folder/:filename
-    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/files/${folder}/${filename}`;
+    const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+    const url = `${BASE_URL}/api/files/${folder}/${filename}`;
     console.log("🔹 Fetching protected file from:", url);
     console.log("🔹 Original filePath:", filePath);
     console.log("🔹 Folder:", folder, "Filename:", filename);

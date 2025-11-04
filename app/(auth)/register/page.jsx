@@ -23,7 +23,11 @@ export default function SignupPage() {
     confirmPassword: "",
     cnicFront: null,
     cnicBack: null,
+    role: "user",
+    adminSecretKey: "",
   });
+  
+  const [isAdminRegistration, setIsAdminRegistration] = useState(false);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,13 +41,24 @@ export default function SignupPage() {
     e.preventDefault();
 
     const fd = new FormData();
-    Object.entries(formData).forEach(([key, value]) => fd.append(key, value));
+    Object.entries(formData).forEach(([key, value]) => {
+      // Only include adminSecretKey if registering as admin
+      if (key === "adminSecretKey" && !isAdminRegistration) {
+        return; // Skip this field
+      }
+      // Only include role if registering as admin
+      if (key === "role") {
+        fd.append(key, isAdminRegistration ? "admin" : "user");
+      } else {
+        fd.append(key, value);
+      }
+    });
 
     const result = await dispatch(signupUser(fd));
 
     if (result.meta.requestStatus === "fulfilled") {
-      toast.success("Account created successfully!");
-      router.push("/profile");
+      toast.success("Account created successfully! Please login.");
+      router.push("/login");
     } else {
       toast.error(result.payload || "Signup failed. Please try again.");
     }
@@ -66,7 +81,7 @@ export default function SignupPage() {
           className="relative z-10 text-center flex flex-col items-center"
         >
           <Image
-            src="/vedios/Artboard 1 (2).png"
+            src="/vedios/F logo.png"
             alt="Tadbeer Logo"
             width={200}
             height={100}
@@ -150,6 +165,47 @@ export default function SignupPage() {
                 file={formData.cnicBack}
                 onChange={handleFileChange}
               />
+            </div>
+
+            {/* 🔒 Admin Registration Section */}
+            <div className="border-t border-white/10 pt-5">
+              <div className="flex items-center gap-3 mb-3">
+                <input
+                  type="checkbox"
+                  id="adminRegistration"
+                  checked={isAdminRegistration}
+                  onChange={(e) => {
+                    setIsAdminRegistration(e.target.checked);
+                    if (!e.target.checked) {
+                      setFormData((prev) => ({ ...prev, adminSecretKey: "" }));
+                    }
+                  }}
+                  className="w-5 h-5 rounded border-white/10 bg-[#1A1A1A] text-[var(--accent-color)] focus:ring-2 focus:ring-[var(--accent-color)]"
+                />
+                <label
+                  htmlFor="adminRegistration"
+                  className="text-sm font-medium text-gray-300 cursor-pointer"
+                >
+                  Register as Administrator
+                </label>
+              </div>
+              
+              {isAdminRegistration && (
+                <div className="mt-3 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+                  <p className="text-xs text-yellow-400 mb-3">
+                    ⚠️ Admin registration requires a secret key. Only authorized personnel can register as admin.
+                  </p>
+                  <InputField
+                    label="Admin Secret Key"
+                    name="adminSecretKey"
+                    type="password"
+                    value={formData.adminSecretKey}
+                    onChange={handleChange}
+                    placeholder="Enter admin secret key"
+                    className="bg-[#1A1A1A] text-white border-white/10 focus:border-yellow-500"
+                  />
+                </div>
+              )}
             </div>
 
             {error && (

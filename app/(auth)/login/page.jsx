@@ -55,7 +55,7 @@ export default function LoginPage() {
         >
           <div className="mb-8">
             <Image
-              src="/vedios/Artboard 1 (2).png"
+              src="/vedios/F logo.png"
               alt="Tadbeer Logo"
               width={200}
               height={100}

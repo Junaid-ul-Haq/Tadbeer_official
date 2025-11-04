@@ -66,21 +66,22 @@ export default function Navbar() {
     <>
       {/* 🔹 Main Navbar */}
       <header
-        className={`fixed w-full z-[999] transition-all duration-300 top-0 overflow-visible ${
+        className={`fixed w-full z-[999] transition-all duration-300 top-0 left-0 right-0 overflow-visible ${
           isScrolled
             ? "bg-[var(--surface-color)]/95 backdrop-blur-lg border-b border-white/10 shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
             : "bg-[var(--background-color)]/60 backdrop-blur-sm"
         }`}
+        style={{ height: '76px' }}
       >
-        <div className="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-3 md:px-4 py-2 sm:py-0.5 md:py-0.5 font-poppins overflow-visible">
-          {/* ✅ Logo - Allowed to overflow - Bigger on mobile */}
-          <Link href="/" className="flex items-center gap-2 sm:gap-1 md:gap-2 overflow-visible relative z-10">
-            <div className="relative w-64 sm:w-52 md:w-72 h-28 sm:h-20 md:h-32 flex items-center justify-center overflow-visible">
+        <div className="w-full flex justify-between items-center px-4 sm:px-3 md:px-0 h-full font-poppins overflow-visible">
+          {/* ✅ Logo - Slim and consistent size - Left corner on laptop */}
+          <Link href="/" className="flex items-center gap-2 overflow-visible relative z-10 h-full md:ml-6 lg:ml-8">
+            <div className="relative w-40 sm:w-44 md:w-48 flex items-center justify-center overflow-visible" style={{ height: '60px' }}>
               <Image
-                src="/vedios/Artboard 1 (2).png"
+                src="/vedios/F logo.png"
                 alt="Tadbeer Logo"
                 fill
-                sizes="(max-width: 640px) 256px, (max-width: 768px) 208px, 288px"
+                sizes="(max-width: 640px) 160px, (max-width: 768px) 176px, 192px"
                 className="object-contain drop-shadow-[0_0_12px_rgba(143,194,65,0.4)] hover:scale-110 transition-transform duration-300"
                 style={{ mixBlendMode: 'normal', backgroundColor: 'transparent' }}
                 priority
@@ -89,7 +90,7 @@ export default function Navbar() {
           </Link>
 
           {/* Menu Links */}
-          <nav className="hidden md:flex items-center gap-10 text-[var(--text-color)] font-semibold text-lg">
+          <nav className="hidden md:flex items-center gap-8 text-[var(--text-color)] font-semibold text-lg">
             <Link
               href="/"
               className="relative group hover:text-[var(--accent-color)] transition-colors"
@@ -128,19 +129,19 @@ export default function Navbar() {
 
             <button
               onClick={handleContactClick}
-              className="relative group hover:text-[var(--accent-color)] transition-colors cursor-pointer"
+              className="relative group hover:text-[var(--accent-color)] transition-colors cursor-pointer text-lg"
             >
               Contact
               <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[var(--accent-color)] transition-all duration-300 group-hover:w-full"></span>
             </button>
           </nav>
 
-          {/* ✅ Login / Logout */}
-          <div className="flex items-center gap-4">
+          {/* ✅ Login / Logout - Right corner on laptop */}
+          <div className="flex items-center gap-3 md:mr-6 lg:mr-8">
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="px-5 py-2 border border-[var(--accent-color)] text-[var(--accent-color)] rounded-md 
+                className="px-6 py-2.5 text-base font-semibold border border-[var(--accent-color)] text-[var(--accent-color)] rounded-md 
                 hover:bg-[var(--accent-color)] hover:text-white hover:shadow-[0_0_12px_rgba(24,186,214,0.5)] transition-all duration-300"
               >
                 Logout
@@ -148,7 +149,7 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={() => router.push("/login")}
-                className="px-5 py-2 border border-[var(--primary-color)] text-[var(--primary-color)] rounded-md 
+                className="px-6 py-2.5 text-base font-semibold border border-[var(--primary-color)] text-[var(--primary-color)] rounded-md 
                 hover:bg-[var(--primary-color)] hover:text-white hover:shadow-[0_0_12px_rgba(143,194,65,0.5)] transition-all duration-300"
               >
                 Login

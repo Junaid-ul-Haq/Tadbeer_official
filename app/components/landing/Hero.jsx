@@ -6,11 +6,17 @@ export default function Hero() {
       id="home"
       className="relative min-h-[90vh] md:h-screen w-full max-w-full overflow-hidden hero-section"
     >
-      {/* 🔹 Responsive Background Image */}
+      {/* 🔹 Responsive Background Image - Mobile vs Desktop */}
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat hero-banner"
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat hero-banner md:hidden"
         style={{
-          backgroundImage: "url('/vedios/banner.jpg')",
+          backgroundImage: "url('/vedios/tadbeer-banner full mobile view.jpg')",
+        }}
+      ></div>
+      <div
+        className="hidden md:block absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat hero-banner"
+        style={{
+          backgroundImage: "url('/vedios/tadbeer-banner full.jpg')",
         }}
       ></div>
       {/* Overlay for better content visibility if needed */}
