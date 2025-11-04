@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { completeProfile } from "@/redux/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -11,6 +11,24 @@ import { IoIosAddCircle } from "react-icons/io";
 export default function CompleteProfilePage() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { user, token, isLoggedIn } = useSelector((state) => state.auth);
+
+  // Check if user is logged in
+  useEffect(() => {
+    if (!isLoggedIn || !token) {
+      toast.error("Please login first");
+      router.push("/login");
+      return;
+    }
+
+    // If profile is already completed, redirect to dashboard
+    if (user?.profileCompleted) {
+      toast.success("Profile already completed!");
+      const dashboardPath = user.role === "admin" ? "/admin" : "/user";
+      router.push(dashboardPath);
+      return;
+    }
+  }, [isLoggedIn, token, user, router]);
 
   // 🎓 Education States
   const [education, setEducation] = useState({
@@ -83,7 +101,16 @@ export default function CompleteProfilePage() {
 
   if (result.meta.requestStatus === "fulfilled") {
     toast.success("Profile completed successfully!");
-    router.push("/safePay"); // 👈 Redirect to Safepay page
+    
+    // Redirect based on user role
+    const userRole = user?.role || result.payload?.user?.role;
+    if (userRole === "admin") {
+      // Admin goes directly to dashboard
+      router.push("/admin");
+    } else {
+      // User goes to payment page
+      router.push("/payment");
+    }
   } else {
     setError(result.payload || "Failed to complete profile");
     toast.error("Please try again!");
@@ -295,7 +322,7 @@ export default function CompleteProfilePage() {
               shadow-[0_0_25px_rgba(143,194,65,0.4)] hover:shadow-[0_0_35px_rgba(24,186,214,0.5)] 
               transition-all duration-300"
           >
-            Finish & Go to Payment →
+            Complete Profile & Go to Dashboard →
           </motion.button>
         </form>
       </motion.div>

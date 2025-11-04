@@ -1,53 +1,67 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Modal from "@/app/components/dashboard/scholoarship/Modal";
-import ScholarshipForm from "@/app/components/dashboard/scholoarship/ScholarshipForm";
+import AvailableOpportunitiesTable from "@/app/components/dashboard/scholoarship/AvailableOpportunitiesTable";
+import { scholarshipService } from "@/services/scholarshipService";
 import { fetchUserScholarships } from "@/redux/slices/scholarshipSlice";
-import UserScholarshipTable from "@/app/components/dashboard/scholoarship/UserScholorshipTable";
+import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
 
 export default function UserDashboard() {
   const dispatch = useDispatch();
-  const { userScholarships, loading } = useSelector((state) => state.scholarship);
   const token = useSelector((state) => state.auth.token);
 
-  const [showForm, setShowForm] = useState(false);
+  const [opportunities, setOpportunities] = useState([]);
+  const [opportunitiesLoading, setOpportunitiesLoading] = useState(false);
 
   useEffect(() => {
-    if (token) dispatch(fetchUserScholarships(token));
+    if (token) {
+      fetchAvailableOpportunities();
+    }
   }, [token]);
 
-  const handleFormSuccess = () => {
-    dispatch(fetchUserScholarships(token));
-    setShowForm(false);
+  const fetchAvailableOpportunities = async () => {
+    setOpportunitiesLoading(true);
+    try {
+      const result = await scholarshipService.getAllActiveOpportunities(token);
+      setOpportunities(result.opportunities || []);
+    } catch (err) {
+      toast.error(err.message || "Failed to fetch opportunities");
+      setOpportunities([]);
+    } finally {
+      setOpportunitiesLoading(false);
+    }
   };
-  useEffect(() => {
-  const interval = setInterval(() => {
-    if (token) dispatch(fetchUserScholarships(token));
-  }, 5000); // fetch every 5 seconds
 
-  return () => clearInterval(interval);
-}, [token, dispatch]);
-
+  const handleApplySuccess = () => {
+    // Refresh overview data when application is submitted
+    dispatch(fetchUserScholarships(token));
+    fetchAvailableOpportunities();
+  };
 
   return (
     <div className="p-6 font-[var(--font-family)] text-[var(--text-color)]">
       <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
-        <h1 className="text-3xl font-bold">My Applications</h1>
-        <button
-          className="px-5 py-2 bg-[var(--primary-color)] text-black font-bold rounded-lg shadow-md hover:opacity-90 transition"
-          onClick={() => setShowForm(true)}
-        >
-          Apply for Scholarship
-        </button>
+        <h1 className="text-3xl font-bold">Available Scholarships</h1>
+        <p className="text-gray-400 text-sm">
+          View all your applications in the{" "}
+          <a href="/user" className="text-[var(--primary-color)] hover:underline">
+            Overview
+          </a>
+        </p>
       </div>
 
-      <Modal show={showForm} onClose={() => setShowForm(false)}>
-        <ScholarshipForm onSuccess={handleFormSuccess} />
-      </Modal>
-
-      {/* User Scholarships Table */}
-      <UserScholarshipTable scholarships={userScholarships} loading={loading} />
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <AvailableOpportunitiesTable
+          opportunities={opportunities}
+          loading={opportunitiesLoading}
+          onApplySuccess={handleApplySuccess}
+        />
+      </motion.div>
     </div>
   );
 }

@@ -148,6 +148,14 @@ export default function AdminConsultationDashboard() {
                       {selectedConsultation.user?.phone || "N/A"}
                     </p>
                     <p>
+                      <strong>CNIC Number:</strong>{" "}
+                      {selectedConsultation.user?.CNIC || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Address:</strong>{" "}
+                      {selectedConsultation.user?.address || "N/A"}
+                    </p>
+                    <p>
                       <strong>Category:</strong>{" "}
                       {selectedConsultation.category || "N/A"}
                     </p>

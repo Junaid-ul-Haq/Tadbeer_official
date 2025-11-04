@@ -40,7 +40,7 @@ export default function Sidebar({ role }) {
     { name: "Scholarships", icon: GraduationCap, path: "/admin/scholarships" },
     { name: "Business Grants", icon: Briefcase, path: "/admin/grants" },
     { name: "Consultations", icon: ClipboardList, path: "/admin/consultation" },
-    { name: "Payments", icon: Wallet, path: "/admin/track-payments" },
+    { name: "Payments", icon: Wallet, path: "/admin/payments" },
   ];
 
   const menuItems = role === "admin" ? adminMenu : userMenu;

@@ -19,10 +19,41 @@ const CountUp = dynamic(() => import("react-countup"), { ssr: false });
 
 function ClientCountUp({ number, suffix, icon, title }) {
   const [mounted, setMounted] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
   
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Use Intersection Observer to trigger animation when in view
+  useEffect(() => {
+    if (!mounted) return;
+
+    const elementId = `countup-${title.replace(/\s+/g, "-").toLowerCase()}`;
+    const element = document.getElementById(elementId);
+    
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !shouldAnimate) {
+            setShouldAnimate(true);
+          }
+        });
+      },
+      {
+        threshold: 0.3, // Trigger when 30% of the element is visible
+        rootMargin: "0px 0px -100px 0px", // Trigger slightly before fully visible
+      }
+    );
+
+    observer.observe(element);
+
+    return () => {
+      observer.unobserve(element);
+    };
+  }, [mounted, shouldAnimate, title]);
 
   if (!mounted) {
     return (
@@ -39,16 +70,24 @@ function ClientCountUp({ number, suffix, icon, title }) {
   }
 
   return (
-    <div className="flex flex-col items-center text-center">
+    <div 
+      id={`countup-${title.replace(/\s+/g, "-").toLowerCase()}`}
+      className="flex flex-col items-center text-center"
+    >
       {icon}
       <div className="text-4xl md:text-5xl font-bold text-[var(--primary-color)] drop-shadow-[0_0_12px_rgba(143,194,65,0.7)]">
-        <CountUp
-          start={0}
-          end={number}
-          duration={2.5}
-          enableScrollSpy={false}
-          suffix={suffix}
-        />
+        {shouldAnimate ? (
+          <CountUp
+            start={0}
+            end={number}
+            duration={2.5}
+            suffix={suffix}
+            decimals={0}
+            separator=","
+          />
+        ) : (
+          `0${suffix}`
+        )}
       </div>
       <p className="text-gray-300 mt-3 text-base md:text-lg font-medium">
         {title}
@@ -88,7 +127,7 @@ export default function AboutUs() {
     },
   ];
 
-  const impactData = [
+  const [impactData, setImpactData] = useState([
     {
       title: "Lives Impacted",
       icon: (
@@ -121,7 +160,64 @@ export default function AboutUs() {
       number: 200,
       suffix: "+",
     },
-  ];
+  ]);
+
+  // Fetch global impact data dynamically
+  useEffect(() => {
+    const fetchGlobalImpact = async () => {
+      try {
+        const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+        const response = await fetch(`${BASE_URL}/stats/global-impact`, {
+          credentials: "include",
+        });
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          const { livesImpacted, scholarshipsAwarded, communitiesServed, activeVolunteers } = result.data;
+          
+          setImpactData([
+            {
+              title: "Lives Impacted",
+              icon: (
+                <FaGlobeAsia className="text-4xl md:text-5xl text-[var(--accent-color)] mb-3" />
+              ),
+              number: livesImpacted,
+              suffix: "+",
+            },
+            {
+              title: "Scholarships Awarded",
+              icon: (
+                <FaGraduationCap className="text-4xl md:text-5xl text-[var(--primary-color)] mb-3" />
+              ),
+              number: scholarshipsAwarded,
+              suffix: "+",
+            },
+            {
+              title: "Communities Served",
+              icon: (
+                <FaUsers className="text-4xl md:text-5xl text-[#36b37e] mb-3" />
+              ),
+              number: communitiesServed,
+              suffix: "+",
+            },
+            {
+              title: "Active Volunteers",
+              icon: (
+                <FaPeopleCarry className="text-4xl md:text-5xl text-[var(--accent-color)] mb-3" />
+              ),
+              number: activeVolunteers,
+              suffix: "+",
+            },
+          ]);
+        }
+      } catch (error) {
+        console.error("Error fetching global impact:", error);
+        // Keep default values on error
+      }
+    };
+
+    fetchGlobalImpact();
+  }, []);
 
   const journeyData = [
     {
@@ -377,8 +473,9 @@ export default function AboutUs() {
         variants={fadeUp}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true }}
+        viewport={{ once: false, margin: "-100px" }}
         className="max-w-6xl mx-auto text-center"
+        id="global-impact-section"
       >
         <h3 className="text-3xl md:text-4xl font-semibold text-[var(--accent-color)] drop-shadow-[0_0_15px_rgba(24,186,214,0.6)] mb-12">
           Our Global Impact

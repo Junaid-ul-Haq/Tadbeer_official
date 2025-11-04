@@ -21,6 +21,8 @@ export default function SignupPage() {
     phone: "",
     password: "",
     confirmPassword: "",
+    cnicNumber: "",
+    address: "",
     cnicFront: null,
     cnicBack: null,
     role: "user",
@@ -29,8 +31,31 @@ export default function SignupPage() {
   
   const [isAdminRegistration, setIsAdminRegistration] = useState(false);
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    
+    // Format CNIC number as user types (XXXXX-XXXXXXX-X)
+    if (name === "cnicNumber") {
+      // Remove all non-digits
+      let digits = value.replace(/\D/g, "");
+      
+      // Format: XXXXX-XXXXXXX-X
+      let formatted = "";
+      if (digits.length > 0) {
+        formatted = digits.substring(0, 5);
+        if (digits.length > 5) {
+          formatted += "-" + digits.substring(5, 12);
+          if (digits.length > 12) {
+            formatted += "-" + digits.substring(12, 13);
+          }
+        }
+      }
+      
+      setFormData({ ...formData, [name]: formatted });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
@@ -57,8 +82,8 @@ export default function SignupPage() {
     const result = await dispatch(signupUser(fd));
 
     if (result.meta.requestStatus === "fulfilled") {
-      toast.success("Account created successfully! Please login.");
-      router.push("/login");
+      toast.success("Account created successfully! Complete your profile.");
+      router.push("/profile");
     } else {
       toast.error(result.payload || "Signup failed. Please try again.");
     }
@@ -134,6 +159,28 @@ export default function SignupPage() {
               onChange={handleChange}
               className="bg-[#1A1A1A] text-white border-white/10 focus:border-[var(--accent-color)]"
             />
+            <InputField
+              label="CNIC Number"
+              name="cnicNumber"
+              value={formData.cnicNumber}
+              onChange={handleChange}
+              placeholder="12345-1234567-1"
+              className="bg-[#1A1A1A] text-white border-white/10 focus:border-[var(--accent-color)]"
+            />
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Address
+              </label>
+              <textarea
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                placeholder="Enter your complete address"
+                rows={3}
+                className="w-full px-4 py-2.5 bg-[#1A1A1A] text-white border border-white/10 rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)] resize-none"
+                required
+              />
+            </div>
             <InputField
               label="Password"
               type="password"

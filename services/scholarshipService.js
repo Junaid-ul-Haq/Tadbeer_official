@@ -22,6 +22,20 @@ export const scholarshipService = {
     return data;
   },
 
+  // Apply for scholarship from opportunity
+  applyForScholarship: async (token, formData) => {
+    const res = await fetch(`${BASE_URL}/scholarship/createScholarship`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+      credentials: "include",
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Failed to submit scholarship application");
+    return data;
+  },
+
   getMyScholarships: async (token) => {
     const res = await fetch(`${BASE_URL}/scholarship/getMyScholarships`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -141,6 +155,28 @@ export const scholarshipService = {
     );
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || "Failed to search opportunities");
+    return data;
+  },
+
+  // User: Get all active opportunities (all available scholarships)
+  getAllActiveOpportunities: async (token) => {
+    const res = await fetch(`${BASE_URL}/scholarship/opportunities/all`, {
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Failed to fetch opportunities");
+    return data;
+  },
+
+  // User: Get opportunities based on logged-in user's profile
+  getMyOpportunities: async (token) => {
+    const res = await fetch(`${BASE_URL}/scholarship/opportunities/my-opportunities`, {
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: "include",
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.message || "Failed to fetch opportunities");
     return data;
   },
 

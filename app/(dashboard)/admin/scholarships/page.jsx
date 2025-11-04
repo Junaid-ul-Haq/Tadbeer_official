@@ -252,7 +252,16 @@ export default function AdminDashboard() {
                 <strong>Name:</strong> {selectedScholarship.user?.name}
               </p>
               <p>
+                <strong>Email:</strong> {selectedScholarship.user?.email || "N/A"}
+              </p>
+              <p>
                 <strong>Phone:</strong> {selectedScholarship.user?.phone}
+              </p>
+              <p>
+                <strong>CNIC Number:</strong> {selectedScholarship.user?.CNIC || "N/A"}
+              </p>
+              <p>
+                <strong>Address:</strong> {selectedScholarship.user?.address || "N/A"}
               </p>
 
               <div>

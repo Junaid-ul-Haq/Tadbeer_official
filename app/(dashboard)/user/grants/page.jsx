@@ -1,54 +1,67 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import AvailableGrantsTable from "@/app/components/dashboard/grants/AvailableGrantsTable";
+import { businessGrantService } from "@/services/businessGrantService";
 import { getMyGrants } from "@/redux/slices/businessGrantSlice";
-import GrantForm from "@/app/components/dashboard/grants/GrantForm";
-import GrantUserTable from "@/app/components/dashboard/grants/GrantUserTable";
-import Modal from "@/app/components/dashboard/scholoarship/Modal"; // ✅ reuse modal
+import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
 
 export default function UserGrantPage() {
   const dispatch = useDispatch();
-  const { myGrants, loading } = useSelector((state) => state.businessGrant);
   const token = useSelector((state) => state.auth.token);
 
-  const [showForm, setShowForm] = useState(false);
+  const [opportunities, setOpportunities] = useState([]);
+  const [opportunitiesLoading, setOpportunitiesLoading] = useState(false);
 
   useEffect(() => {
-    if (token) dispatch(getMyGrants(token));
-  }, [token, dispatch]);
+    if (token) {
+      fetchAvailableOpportunities();
+    }
+  }, [token]);
 
-  // Auto-refresh every 5 seconds like scholarship page
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (token) dispatch(getMyGrants(token));
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [token, dispatch]);
+  const fetchAvailableOpportunities = async () => {
+    setOpportunitiesLoading(true);
+    try {
+      const result = await businessGrantService.getAllActiveGrantOpportunities(token);
+      setOpportunities(result.opportunities || []);
+    } catch (err) {
+      toast.error(err.message || "Failed to fetch opportunities");
+      setOpportunities([]);
+    } finally {
+      setOpportunitiesLoading(false);
+    }
+  };
 
-  const handleFormSuccess = () => {
+  const handleApplySuccess = () => {
+    // Refresh overview data when application is submitted
     dispatch(getMyGrants(token));
-    setShowForm(false);
+    fetchAvailableOpportunities();
   };
 
   return (
     <div className="p-6 font-[var(--font-family)] text-[var(--text-color)]">
       <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
-        <h1 className="text-3xl font-bold">My Business Grants</h1>
-        <button
-          className="px-5 py-2 bg-[var(--primary-color)] text-black font-bold rounded-lg shadow-md hover:opacity-90 transition"
-          onClick={() => setShowForm(true)}
-        >
-          Apply for Grant
-        </button>
+        <h1 className="text-3xl font-bold">Available Business Grants</h1>
+        <p className="text-gray-400 text-sm">
+          View all your applications in the{" "}
+          <a href="/user" className="text-[var(--primary-color)] hover:underline">
+            Overview
+          </a>
+        </p>
       </div>
 
-      {/* Modal Form */}
-      <Modal show={showForm} onClose={() => setShowForm(false)}>
-        <GrantForm onSuccess={handleFormSuccess} />
-      </Modal>
-
-      {/* Grants Table */}
-      <GrantUserTable grants={myGrants} loading={loading} />
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <AvailableGrantsTable
+          opportunities={opportunities}
+          loading={opportunitiesLoading}
+          onApplySuccess={handleApplySuccess}
+        />
+      </motion.div>
     </div>
   );
 }

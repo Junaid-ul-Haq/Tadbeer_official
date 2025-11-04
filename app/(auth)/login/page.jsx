@@ -28,12 +28,35 @@ export default function LoginPage() {
       const data = await authService.loginUser(formData);
       if (data?.token) {
         dispatch(loginSuccess({ user: data.user, token: data.token }));
-        router.push(data.user.role === "admin" ? "/admin" : "/user");
+        
+        // Admin goes directly to dashboard
+        if (data.user.role === "admin") {
+          router.push("/admin");
+          return;
+        }
+        
+        // For users, check profile and payment status
+        if (!data.user.profileCompleted) {
+          // Profile not completed, redirect to profile page
+          router.push("/profile");
+        } else if (!data.user.paymentVerified) {
+          // Profile completed but payment not verified, redirect to payment page
+          router.push("/payment");
+        } else {
+          // Everything complete, redirect to dashboard
+          router.push("/user");
+        }
       } else {
         setError(data.message || "Login failed");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong");
+      // Handle payment pending error
+      if (err.response?.data?.paymentPending) {
+        setError("Payment verification pending. Please wait for admin approval.");
+        router.push("/payment");
+      } else {
+        setError(err.response?.data?.message || "Something went wrong");
+      }
     }
   };
 

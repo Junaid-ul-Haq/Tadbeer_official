@@ -7,27 +7,46 @@ import {
   getGrantById,
 } from "@/redux/slices/businessGrantSlice";
 import GrantTable from "@/app/components/dashboard/grants/GrantTable";
+import GrantOpportunityTable from "@/app/components/dashboard/grants/GrantOpportunityTable";
+import GrantOpportunityForm from "@/app/components/dashboard/grants/GrantOpportunityForm";
 import Modal from "@/app/components/dashboard/scholoarship/Modal";
 import CNICPreview from "@/app/components/cnicPreview";
 import { openProtectedFile } from "@/services/fileService";
-import { Link } from "lucide-react";
+import { businessGrantService } from "@/services/businessGrantService";
+import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
 
 export default function AdminGrantDashboard() {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-  console.log("tokenin domain:",token)
   const { allGrants, selectedGrant, loading, totalPages } = useSelector(
-  (state) => state.businessGrant
-);
-console.log("data of path",allGrants)
-console.log("all grants:",selectedGrant)
+    (state) => state.businessGrant
+  );
+  
   const [showDetail, setShowDetail] = useState(false);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  
+  // Opportunities state
+  const [activeTab, setActiveTab] = useState("applications");
+  const [showOpportunityForm, setShowOpportunityForm] = useState(false);
+  const [editingOpportunity, setEditingOpportunity] = useState(null);
+  const [opportunities, setOpportunities] = useState([]);
+  const [opportunitiesLoading, setOpportunitiesLoading] = useState(false);
+  const [oppPage, setOppPage] = useState(1);
+  const [oppTotalPages, setOppTotalPages] = useState(1);
+  const [oppLimit, setOppLimit] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    if (token) fetchPage(page, limit);
-  }, [token, page, limit]);
+    if (token) {
+      if (activeTab === "applications") {
+        fetchPage(page, limit);
+      } else {
+        fetchOpportunities(oppPage, oppLimit, searchTerm);
+      }
+    }
+  }, [token, page, limit, activeTab, oppPage, oppLimit, searchTerm]);
 
   const fetchPage = async (pageNumber, pageLimit) => {
     await dispatch(getAllGrants({ token, page: pageNumber, limit: pageLimit }));
@@ -36,88 +55,279 @@ console.log("all grants:",selectedGrant)
   const handleStatus = async (id, status) => {
     await dispatch(updateGrantStatus({ token, id, status }));
   };
-const handleView = async (id) => {
-  const res = await dispatch(getGrantById({ token, id }));
-  const grant = res.payload; 
-  console.log("Grant CNIC paths:", {
-    cnicFront: grant.user?.cnicFront,
-    cnicBack: grant.user?.cnicBack,
-  });
-  setShowDetail(true);
-};
+
+  const handleView = async (id) => {
+    const res = await dispatch(getGrantById({ token, id }));
+    const grant = res.payload;
+    setShowDetail(true);
+  };
+
+  // Opportunities functions
+  const fetchOpportunities = async (pageNum, pageLimit, search = "") => {
+    setOpportunitiesLoading(true);
+    try {
+      const result = await businessGrantService.getAllGrantOpportunities(
+        token,
+        pageNum,
+        pageLimit,
+        search
+      );
+      setOpportunities(result.data || []);
+      setOppTotalPages(result.totalPages || 1);
+    } catch (err) {
+      toast.error(err.message || "Failed to fetch opportunities");
+    } finally {
+      setOpportunitiesLoading(false);
+    }
+  };
+
+  const handleOpportunitySuccess = () => {
+    fetchOpportunities(oppPage, oppLimit, searchTerm);
+    setEditingOpportunity(null);
+  };
+
+  const handleEditOpportunity = (opp) => {
+    setEditingOpportunity(opp);
+    setShowOpportunityForm(true);
+  };
+
+  const handleDeleteOpportunity = async (id) => {
+    try {
+      await businessGrantService.deleteGrantOpportunity(token, id);
+      toast.success("Opportunity deleted successfully");
+      fetchOpportunities(oppPage, oppLimit, searchTerm);
+    } catch (err) {
+      toast.error(err.message || "Failed to delete opportunity");
+    }
+  };
+
+  const handleToggleActive = async (opp) => {
+    try {
+      await businessGrantService.updateGrantOpportunity(token, opp._id, {
+        isActive: !opp.isActive,
+      });
+      toast.success(`Opportunity ${!opp.isActive ? "activated" : "deactivated"}`);
+      fetchOpportunities(oppPage, oppLimit, searchTerm);
+    } catch (err) {
+      toast.error(err.message || "Failed to update opportunity");
+    }
+  };
 
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">All Business Grants</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#060606] via-[#0a0a0a] to-[#111] text-white p-8 font-[var(--font-family)]">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mb-10"
+      >
+        <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent">
+          Business Grant Management
+        </h1>
+        <p className="text-gray-400 text-center mt-2">
+          Manage applications and grant opportunities
+        </p>
+      </motion.div>
 
-      {/* Pagination & Filter Controls */}
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <label className="mr-2 font-medium">Records per page:</label>
-          <select
-            value={limit}
-            onChange={(e) => {
-              setLimit(parseInt(e.target.value));
-              setPage(1);
-            }}
-            className="bg-[var(--surface-color)] border border-gray-500 rounded px-2 py-1"
-          >
-            {[5, 10, 20, 50].map((l) => (
-              <option key={l} value={l}>
-                {l}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex gap-2 items-center">
-          <button
-            disabled={page <= 1}
-            onClick={() => setPage(page - 1)}
-            className={`px-3 py-1 rounded border text-sm font-semibold ${
-              page <= 1
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-[var(--accent-color)] hover:text-white transition"
-            }`}
-          >
-            Prev
-          </button>
-
-          <select
-            value={page}
-            onChange={(e) => setPage(parseInt(e.target.value))}
-            className="bg-[var(--surface-color)] border border-gray-500 rounded px-2 py-1"
-          >
-            {Array.from({ length: totalPages || 1 }, (_, i) => i + 1).map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
-
-          <button
-            disabled={page >= totalPages}
-            onClick={() => setPage(page + 1)}
-            className={`px-3 py-1 rounded border text-sm font-semibold ${
-              page >= totalPages
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-[var(--accent-color)] hover:text-white transition"
-            }`}
-          >
-            Next
-          </button>
-        </div>
+      {/* Tabs */}
+      <div className="flex gap-4 mb-6 border-b border-white/10">
+        <button
+          onClick={() => setActiveTab("applications")}
+          className={`px-6 py-3 font-semibold transition-all ${
+            activeTab === "applications"
+              ? "text-[var(--accent-color)] border-b-2 border-[var(--accent-color)]"
+              : "text-gray-400 hover:text-gray-300"
+          }`}
+        >
+          Applications
+        </button>
+        <button
+          onClick={() => setActiveTab("opportunities")}
+          className={`px-6 py-3 font-semibold transition-all ${
+            activeTab === "opportunities"
+              ? "text-[var(--accent-color)] border-b-2 border-[var(--accent-color)]"
+              : "text-gray-400 hover:text-gray-300"
+          }`}
+        >
+          Grant Opportunities
+        </button>
       </div>
 
-      {/* Grant Table */}
-      <GrantTable
-        grants={allGrants}
-        loading={loading}
-        onApprove={(id) => handleStatus(id, "approved")}
-        onReject={(id) => handleStatus(id, "rejected")}
-        onView={handleView}
-      />
+      {/* Applications Tab */}
+      {activeTab === "applications" && (
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="bg-[#0F0F0F]/60 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_0_25px_rgba(24,186,214,0.1)] p-6"
+        >
+          {/* Pagination Controls */}
+          <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
+            <div className="flex items-center gap-2 text-gray-300">
+              <label className="font-medium">Records per page:</label>
+              <select
+                value={limit}
+                onChange={(e) => {
+                  setLimit(parseInt(e.target.value));
+                  setPage(1);
+                }}
+                className="bg-[#1A1A1A]/80 text-white border border-white/10 rounded-lg px-3 py-2"
+              >
+                {[5, 10, 20, 50].map((l) => (
+                  <option key={l} value={l}>
+                    {l}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                disabled={page <= 1}
+                onClick={() => setPage(page - 1)}
+                className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                  page <= 1
+                    ? "bg-gray-700 cursor-not-allowed opacity-50"
+                    : "bg-gradient-to-r from-[var(--accent-color)] to-[var(--primary-color)] hover:opacity-90"
+                }`}
+              >
+                ← Previous
+              </button>
+              <select
+                value={page}
+                onChange={(e) => setPage(parseInt(e.target.value))}
+                className="bg-[#1A1A1A]/80 text-white border border-white/10 rounded-lg px-3 py-2"
+              >
+                {Array.from({ length: totalPages || 1 }, (_, i) => i + 1).map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
+              </select>
+              <button
+                disabled={page >= totalPages}
+                onClick={() => setPage(page + 1)}
+                className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                  page >= totalPages
+                    ? "bg-gray-700 cursor-not-allowed opacity-50"
+                    : "bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] hover:opacity-90"
+                }`}
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+
+          {/* Grant Table */}
+          <GrantTable
+            grants={allGrants}
+            loading={loading}
+            onApprove={(id) => handleStatus(id, "approved")}
+            onReject={(id) => handleStatus(id, "rejected")}
+            onView={handleView}
+          />
+        </motion.div>
+      )}
+
+      {/* Opportunities Tab */}
+      {activeTab === "opportunities" && (
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="bg-[#0F0F0F]/60 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_0_25px_rgba(24,186,214,0.1)] p-6"
+        >
+          {/* Search and Add Button */}
+          <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
+            <input
+              type="text"
+              placeholder="Search by city or description..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setOppPage(1);
+              }}
+              className="flex-1 min-w-[200px] px-4 py-2.5 bg-[#1A1A1A]/80 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]"
+            />
+            <button
+              onClick={() => {
+                setEditingOpportunity(null);
+                setShowOpportunityForm(true);
+              }}
+              className="px-6 py-2.5 bg-gradient-to-r from-[var(--accent-color)] to-[var(--primary-color)] text-white rounded-lg font-semibold hover:opacity-90 transition-all"
+            >
+              + Add Grant Opportunity
+            </button>
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-2 text-gray-300">
+              <label className="font-medium">Records per page:</label>
+              <select
+                value={oppLimit}
+                onChange={(e) => {
+                  setOppLimit(parseInt(e.target.value));
+                  setOppPage(1);
+                }}
+                className="bg-[#1A1A1A]/80 text-white border border-white/10 rounded-lg px-3 py-2"
+              >
+                {[5, 10, 20, 50].map((l) => (
+                  <option key={l} value={l}>
+                    {l}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                disabled={oppPage <= 1}
+                onClick={() => setOppPage(oppPage - 1)}
+                className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                  oppPage <= 1
+                    ? "bg-gray-700 cursor-not-allowed opacity-50"
+                    : "bg-gradient-to-r from-[var(--accent-color)] to-[var(--primary-color)] hover:opacity-90"
+                }`}
+              >
+                ← Previous
+              </button>
+              <span className="text-gray-300">
+                Page {oppPage} of {oppTotalPages}
+              </span>
+              <button
+                disabled={oppPage >= oppTotalPages}
+                onClick={() => setOppPage(oppPage + 1)}
+                className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                  oppPage >= oppTotalPages
+                    ? "bg-gray-700 cursor-not-allowed opacity-50"
+                    : "bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] hover:opacity-90"
+                }`}
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+
+          {/* Opportunities Table */}
+          <GrantOpportunityTable
+            opportunities={opportunities}
+            loading={opportunitiesLoading}
+            onEdit={handleEditOpportunity}
+            onDelete={handleDeleteOpportunity}
+            onToggleActive={handleToggleActive}
+          />
+        </motion.div>
+      )}
+
+      {/* Opportunity Form Modal */}
+      <Modal show={showOpportunityForm} onClose={() => setShowOpportunityForm(false)}>
+        <GrantOpportunityForm
+          opportunity={editingOpportunity}
+          onSuccess={handleOpportunitySuccess}
+          onClose={() => setShowOpportunityForm(false)}
+        />
+      </Modal>
 
       {/* Modal for Grant Details */}
 
@@ -149,6 +359,8 @@ const handleView = async (id) => {
               <p><strong>Name:</strong> {selectedGrant.user?.name || "N/A"}</p>
               <p><strong>Email:</strong> {selectedGrant.user?.email || "N/A"}</p>
               <p><strong>Phone:</strong> {selectedGrant.user?.phone || "N/A"}</p>
+              <p><strong>CNIC Number:</strong> {selectedGrant.user?.CNIC || "N/A"}</p>
+              <p><strong>Address:</strong> {selectedGrant.user?.address || "N/A"}</p>
 
               <p><strong>Title:</strong> {selectedGrant.title || "N/A"}</p>
 
