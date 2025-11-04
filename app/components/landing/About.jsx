@@ -166,7 +166,7 @@ export default function AboutUs() {
   useEffect(() => {
     const fetchGlobalImpact = async () => {
       try {
-        const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+        const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://tadbeerresource.com";
         const response = await fetch(`${BASE_URL}/stats/global-impact`, {
           credentials: "include",
         });

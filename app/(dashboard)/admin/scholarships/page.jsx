@@ -371,7 +371,7 @@ export default function AdminDashboard() {
                               filename = doc.filePath;
                             }
                             
-                            const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+                            const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://tadbeerresource.com";
                             const response = await fetch(`${BASE_URL}/api/files/${folder}/${filename}`, {
                               headers: { Authorization: `Bearer ${token}` },
                             });
