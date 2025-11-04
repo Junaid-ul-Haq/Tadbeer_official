@@ -90,7 +90,7 @@ export default function LoginPage() {
           </h1>
           <p className="text-base md:text-lg text-gray-400 max-w-md">
             Sign in and continue your journey of compassion, empowerment, and
-            hope with <span className="text-[var(--accent-color)] font-semibold">Tadbeer Foundation</span>.
+            hope with <span className="text-[var(--accent-color)] font-semibold">Tadbeer Resource Center</span>.
           </p>
         </motion.div>
       </div>

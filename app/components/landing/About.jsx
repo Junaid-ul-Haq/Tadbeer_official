@@ -167,9 +167,18 @@ export default function AboutUs() {
     const fetchGlobalImpact = async () => {
       try {
         const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://tadbeerresource.com";
+        // Only fetch if we're on the client side and API URL is available
+        if (typeof window === 'undefined') return;
+        
         const response = await fetch(`${BASE_URL}/stats/global-impact`, {
           credentials: "include",
+          mode: 'cors', // Explicitly set CORS mode
         });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const result = await response.json();
         
         if (result.success && result.data) {
@@ -211,8 +220,12 @@ export default function AboutUs() {
           ]);
         }
       } catch (error) {
-        console.error("Error fetching global impact:", error);
-        // Keep default values on error
+        // Silently handle errors (CORS, network, etc.) - keep default values
+        // Only log in development mode
+        if (process.env.NODE_ENV === 'development') {
+          console.warn("Could not fetch global impact stats:", error.message);
+        }
+        // Keep default values on error - no need to show error to user
       }
     };
 
@@ -505,7 +518,7 @@ export default function AboutUs() {
             opportunity, dignity, and empowerment for every life we touch.”
           </p>
           <p className="mt-4 text-[var(--primary-color)] font-semibold">
-            — Tadbeer Foundation
+            — Tadbeer Resource Center
           </p>
         </div>
       </motion.div>

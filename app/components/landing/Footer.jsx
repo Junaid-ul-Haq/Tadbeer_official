@@ -29,7 +29,7 @@ export default function Footer() {
           transition={{ duration: 0.6 }}
         >
           <h3 className="text-2xl md:text-3xl font-semibold text-[var(--primary-color)] mb-5 drop-shadow-[0_0_10px_rgba(143,194,65,0.5)]">
-            Tadbeer Foundation
+            Tadbeer Resource Center
           </h3>
           <p className="text-base text-gray-400 leading-relaxed">
             Guided by compassion and impact, we bridge hope and opportunity to
@@ -121,7 +121,7 @@ export default function Footer() {
       <div className="border-t border-white/10 mt-14 pt-6 text-center text-sm md:text-base text-gray-500 leading-relaxed relative z-10">
         © {new Date().getFullYear()}{" "}
         <span className="font-semibold text-[var(--primary-color)]">
-          Tadbeer Foundation
+          Tadbeer Resource Center
         </span>
         . All rights reserved.
         <br />

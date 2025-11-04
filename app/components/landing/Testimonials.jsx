@@ -17,7 +17,7 @@ const teamMembers = [
     name: "Mr. Zia ul Haq",
     designation: "President",
     image: getTeamImageUrl("Mr Zia ul Haq preident.jpeg"),
-    description: "Leading with vision and compassion, guiding Tadbeer Foundation towards greater impact and community empowerment.",
+    description: "Leading with vision and compassion, guiding Tadbeer Resource Center towards greater impact and community empowerment.",
   },
   {
     name: "Prof. Dr. Akhtar Ali Saleemi",

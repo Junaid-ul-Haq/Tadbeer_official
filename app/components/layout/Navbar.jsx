@@ -11,9 +11,16 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useSelector((state) => state.auth);
-  const isLoggedIn = !!user;
-
+  
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false); // Prevent hydration mismatch
+  
+  // Only check auth state after component mounts on client
+  const isLoggedIn = mounted ? !!user : false;
+
+  useEffect(() => {
+    setMounted(true); // Mark as mounted on client
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
