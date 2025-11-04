@@ -1,5 +1,10 @@
 "use client";
 import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 // Get team image URL helper
 const getTeamImageUrl = (filename) => {
@@ -114,50 +119,84 @@ export default function Testimonials() {
         Meet our dedicated team members who drive our mission forward — leaders, advisors, and passionate contributors making a difference.
       </motion.p>
 
-      {/* 🔹 Team Members Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
-        {teamMembers.map((member, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: i * 0.1 }}
-            whileHover={{ scale: 1.05, y: -5 }}
-            className="relative bg-[#101010]/90 border border-white/10 backdrop-blur-md 
-            rounded-2xl shadow-[0_0_25px_rgba(24,186,214,0.15)] 
-            hover:shadow-[0_0_40px_rgba(24,186,214,0.4)] 
-            p-6 transition-all duration-300 flex flex-col items-center text-center"
-          >
-            {/* 🔹 Image */}
-            <div className="flex-shrink-0 relative mb-4">
-              <img
-                src={member.image}
-                alt={member.name}
-                className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover 
-                border-4 border-[var(--accent-color)] shadow-[0_0_20px_rgba(24,186,214,0.5)]
-                mx-auto"
-                onError={(e) => {
-                  if (e.target.src !== "/vedios/abc.jpeg") {
-                    e.target.src = "/vedios/abc.jpeg";
-                  }
-                }}
-              />
-            </div>
+      {/* 🔹 Swiper Slideshow */}
+      <div className="relative max-w-7xl mx-auto">
+        <Swiper
+          modules={[Pagination, Autoplay, Navigation]}
+          spaceBetween={30}
+          slidesPerView={1}
+          slidesPerGroup={1}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              slidesPerGroup: 2,
+            },
+            768: {
+              slidesPerView: 3,
+              slidesPerGroup: 3,
+            },
+            1024: {
+              slidesPerView: 4,
+              slidesPerGroup: 4,
+            },
+          }}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+          }}
+          navigation={true}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          loop={true}
+          className="pb-12"
+        >
+          {teamMembers.map((member, i) => (
+            <SwiperSlide key={i}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="relative bg-[#101010]/90 border border-white/10 backdrop-blur-md 
+                rounded-2xl shadow-[0_0_25px_rgba(24,186,214,0.15)] 
+                hover:shadow-[0_0_40px_rgba(24,186,214,0.4)] 
+                p-6 h-full transition-all duration-300 flex flex-col items-center text-center"
+              >
+                {/* 🔹 Image */}
+                <div className="flex-shrink-0 relative mb-4">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover 
+                    border-4 border-[var(--accent-color)] shadow-[0_0_20px_rgba(24,186,214,0.5)]
+                    mx-auto"
+                    onError={(e) => {
+                      if (e.target.src !== "/vedios/abc.jpeg") {
+                        e.target.src = "/vedios/abc.jpeg";
+                      }
+                    }}
+                  />
+                </div>
 
-            {/* 🔹 Name & Designation */}
-            <div className="flex-1">
-              <h3 className="text-xl md:text-2xl font-semibold text-[var(--primary-color)] drop-shadow-[0_0_10px_rgba(143,194,65,0.5)] mb-2">
-                {member.name}
-              </h3>
-              <p className="text-sm md:text-base text-[var(--accent-color)] font-medium mb-3">
-                {member.designation}
-              </p>
-              <p className="text-sm text-gray-400 leading-relaxed">
-                {member.description}
-              </p>
-            </div>
-          </motion.div>
-        ))}
+                {/* 🔹 Name & Designation */}
+                <div className="flex-1">
+                  <h3 className="text-xl md:text-2xl font-semibold text-[var(--primary-color)] drop-shadow-[0_0_10px_rgba(143,194,65,0.5)] mb-2">
+                    {member.name}
+                  </h3>
+                  <p className="text-sm md:text-base text-[var(--accent-color)] font-medium mb-3">
+                    {member.designation}
+                  </p>
+                  <p className="text-sm text-gray-400 leading-relaxed">
+                    {member.description}
+                  </p>
+                </div>
+              </motion.div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
 
       {/* 🔹 Decorative Accent Line */}

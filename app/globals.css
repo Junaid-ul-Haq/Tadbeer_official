@@ -138,3 +138,29 @@ body {
     background-position: center top !important;
   }
 }
+
+/* 🎠 Swiper Carousel Styles for Voice of Impact */
+.swiper-pagination-bullet {
+  background: var(--accent-color) !important;
+  opacity: 0.5 !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  background: var(--accent-color) !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--accent-color) !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 24px !important;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: var(--primary-color) !important;
+}
