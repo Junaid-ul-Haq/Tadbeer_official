@@ -44,7 +44,7 @@ export default function AdminConsultationDashboard() {
 
   return (
     <div className="p-6 font-[var(--font-family)] text-[var(--text-color)]">
-      <h1 className="text-3xl font-bold mb-6">All Consultations</h1>
+      <h1 className="text-3xl font-bold mb-6">All Career Counseling</h1>
 
       {/* Pagination Controls */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
@@ -120,7 +120,7 @@ export default function AdminConsultationDashboard() {
               {/* Header */}
               <div className="flex justify-between items-center p-6 border-b border-[var(--outline-color)]">
                 <h2 className="text-3xl font-bold text-[var(--primary-color)]">
-                  Consultation Details
+                  Career Counseling Details
                 </h2>
                 <button
                   onClick={() => setShowDetail(false)}
@@ -309,7 +309,7 @@ export default function AdminConsultationDashboard() {
                                   filename = doc.filePath;
                                 }
                                 
-                                const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://tadbeerresource.com";
+                                const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || (window.location.hostname === 'localhost' ? "http://localhost:4000" : "https://api.tadbeerresource.com");
                                 const response = await fetch(`${BASE_URL}/api/files/${folder}/${filename}`, {
                                   headers: { Authorization: `Bearer ${token}` },
                                 });

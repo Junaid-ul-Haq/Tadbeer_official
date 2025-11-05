@@ -10,13 +10,13 @@ export default function Hero() {
       <div
         className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat hero-banner md:hidden"
         style={{
-          backgroundImage: "url('/vedios/tadbeer-banner full mobile view.jpg')",
+          backgroundImage: "url('/vedios/Junaid banner Mobile View.jpg')",
         }}
       ></div>
       <div
         className="hidden md:block absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat hero-banner"
         style={{
-          backgroundImage: "url('/vedios/tadbeer-banner full.jpg')",
+          backgroundImage: "url('/vedios/Junaid  banner-full.jpg')",
         }}
       ></div>
       {/* Overlay for better content visibility if needed */}

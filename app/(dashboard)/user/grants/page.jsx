@@ -42,7 +42,7 @@ export default function UserGrantPage() {
   return (
     <div className="p-6 font-[var(--font-family)] text-[var(--text-color)]">
       <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
-        <h1 className="text-3xl font-bold">Available Business Grants</h1>
+        <h1 className="text-3xl font-bold">Available Entrepreneur Incubation</h1>
         <p className="text-gray-400 text-sm">
           View all your applications in the{" "}
           <a href="/user" className="text-[var(--primary-color)] hover:underline">

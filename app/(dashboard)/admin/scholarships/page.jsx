@@ -131,10 +131,10 @@ export default function AdminDashboard() {
         className="mb-10"
       >
         <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent">
-          Scholarship Management
+          Educational Counseling Management
         </h1>
         <p className="text-gray-400 text-center mt-2">
-          Manage applications and scholarship opportunities
+          Manage applications and educational counseling opportunities
         </p>
       </motion.div>
 
@@ -158,7 +158,7 @@ export default function AdminDashboard() {
               : "text-gray-400 hover:text-gray-300"
           }`}
         >
-          Scholarship Opportunities
+          Educational Counseling Opportunities
         </button>
       </div>
 
@@ -371,7 +371,7 @@ export default function AdminDashboard() {
                               filename = doc.filePath;
                             }
                             
-                            const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://tadbeerresource.com";
+                            const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || (window.location.hostname === 'localhost' ? "http://localhost:4000" : "https://api.tadbeerresource.com");
                             const response = await fetch(`${BASE_URL}/api/files/${folder}/${filename}`, {
                               headers: { Authorization: `Bearer ${token}` },
                             });

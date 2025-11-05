@@ -13,76 +13,81 @@ const getTeamImageUrl = (filename) => {
 
 // Team members for Voice of Impact
 const teamMembers = [
+  // Leadership
   {
-    name: "Mr. Zia ul Haq",
-    designation: "President",
-    image: getTeamImageUrl("Mr Zia ul Haq preident.jpeg"),
+    name: "Muhammad ZiaUlHaq",
+    designation: "President & Co-Founder",
+    image: getTeamImageUrl("Mr. Zia ul Haq.jpg"),
     description: "Leading with vision and compassion, guiding Tadbeer Resource Center towards greater impact and community empowerment.",
   },
+  // Advisory Board
   {
-    name: "Prof. Dr. Akhtar Ali Saleemi",
-    designation: "Vice President",
-    image: getTeamImageUrl("Prof. Dr .Akhtar Ali Saleemi.jpeg"),
-    description: "Dedicated to excellence in education and social development, driving transformative change in our communities.",
+    name: "Prof. Dr. Farhat Saleemi",
+    designation: "Chairperson",
+    image: getTeamImageUrl("Prof. Dr. Farhat Saleemi.jpg"),
+    description: "Contributing expertise and dedication to advance our educational and social welfare programs.",
   },
   {
     name: "Muhammad Saeed Akhtar",
-    designation: "Vice Chairman Advisory Board",
-    image: getTeamImageUrl("Saleem Akhtar.jpeg"),
+    designation: "Vice Chairman",
+    image: getTeamImageUrl("Muhammad Saeed Akhtar.jpg"),
     description: "Strategic leadership and advisory excellence, shaping the foundation's mission with wisdom and insight.",
+  },
+  {
+    name: "Prof. Dr. Tahira Mughal",
+    designation: "Member Advisory Board",
+    image: getTeamImageUrl("Prof. Dr. Tahira Mugal.jpg"),
+    description: "Passionate advocate for education and community development, making a meaningful difference every day.",
+  },
+  {
+    name: "Abdul Ghafir",
+    designation: "Member Advisory Board",
+    image: getTeamImageUrl("Abdul Gaffar.jpg"),
+    description: "Committed to community welfare and sustainable development, ensuring lasting positive change.",
+  },
+  {
+    name: "Prof. Dr. Akhtar Saleemi",
+    designation: "Member Advisory Board",
+    image: getTeamImageUrl("Prof. Dr. Akhtar Ali Saleemi.jpg"),
+    description: "Dedicated to excellence in education and social development, driving transformative change in our communities.",
+  },
+  {
+    name: "Muhammad Tariq",
+    designation: "Member Advisory Board",
+    image: getTeamImageUrl("Muhammad Tariq.jpg"),
+    description: "Committed to creating opportunities and pathways for success through our various programs.",
   },
   {
     name: "Uzma Kamal",
     designation: "Member Advisory Board",
-    image: getTeamImageUrl("15 uzma kamal.jpg"),
+    image: getTeamImageUrl("Uzma Kamal.jpg"),
     description: "Championing women's empowerment and youth development through innovative programs and initiatives.",
   },
+  // Board of Management
   {
-    name: "Abdul Gaffar",
-    designation: "Member Advisory Board",
-    image: getTeamImageUrl("13-abdul gahfir.jpg"),
-    description: "Committed to community welfare and sustainable development, ensuring lasting positive change.",
-  },
-  {
-    name: "Prof. Dr. Farhat Saleemi",
-    designation: "Team Member",
-    image: getTeamImageUrl("Prof. Dr. Farhat Saleemi.jpeg"),
-    description: "Contributing expertise and dedication to advance our educational and social welfare programs.",
-  },
-  {
-    name: "Prof. Dr. Tahira Mugal",
-    designation: "Team Member",
-    image: getTeamImageUrl("Prof . Dr .Tahira Mugal.jpeg"),
-    description: "Passionate advocate for education and community development, making a meaningful difference every day.",
-  },
-  {
-    name: "Dr. Maira Waqas",
-    designation: "Team Member",
-    image: getTeamImageUrl("Dr Maira Waqas.jpeg"),
-    description: "Bringing medical expertise and compassion to serve communities in need of healthcare support.",
-  },
-  {
-    name: "M. Ata-ul-Haq",
-    designation: "Team Member",
-    image: getTeamImageUrl("M. Ata-ul-Haq.jpeg"),
+    name: "Muhammad Ata-ul-Haq",
+    designation: "Treasurer & Head Board of Management",
+    image: getTeamImageUrl("M. Ata-ul-Haq.jpg"),
     description: "Dedicated team member working tirelessly to support our mission of empowerment and service.",
   },
   {
-    name: "Muhammad Tariq",
-    designation: "Team Member",
-    image: getTeamImageUrl("Muhammad Tariq.jpeg"),
-    description: "Committed to creating opportunities and pathways for success through our various programs.",
+    name: "Noman Nisar",
+    designation: "Goodwill Ambassador",
+    location: "Norway & Scandinavia",
+    image: getTeamImageUrl("Noman Nasir.jpg"),
+    description: "Active contributor to our mission, helping bridge gaps and create lasting positive impact.",
   },
   {
-    name: "Noman Nasir",
-    designation: "Team Member",
-    image: getTeamImageUrl("Noman Nasir.jpeg"),
-    description: "Active contributor to our mission, helping bridge gaps and create lasting positive impact.",
+    name: "Dr. Maria Waqas Ph.D",
+    designation: "Goodwill Ambassador",
+    location: "UAE & Middle East",
+    image: getTeamImageUrl("Dr. Maira Waqas.jpg"),
+    description: "Bringing medical expertise and compassion to serve communities in need of healthcare support.",
   },
   {
     name: "Abdul Manan",
     designation: "Social Media & Outreach Associate",
-    image: getTeamImageUrl("14.jpg"),
+    image: getTeamImageUrl("Abdul Manan.jpg"),
     description: "Connecting communities and spreading awareness about our initiatives through digital engagement.",
   },
 ];
@@ -186,9 +191,14 @@ export default function Testimonials() {
                   <h3 className="text-xl md:text-2xl font-semibold text-[var(--primary-color)] drop-shadow-[0_0_10px_rgba(143,194,65,0.5)] mb-2">
                     {member.name}
                   </h3>
-                  <p className="text-sm md:text-base text-[var(--accent-color)] font-medium mb-3">
+                  <p className="text-sm md:text-base text-[var(--accent-color)] font-medium mb-1">
                     {member.designation}
                   </p>
+                  {member.location && (
+                    <p className="text-xs text-gray-500 mb-3">
+                      {member.location}
+                    </p>
+                  )}
                   <p className="text-sm text-gray-400 leading-relaxed">
                     {member.description}
                   </p>

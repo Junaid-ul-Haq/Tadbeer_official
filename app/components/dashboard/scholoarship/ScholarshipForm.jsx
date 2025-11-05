@@ -47,7 +47,7 @@ export default function ScholarshipForm({ onSuccess }) {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-center bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent">
-        Apply for Scholarship
+        Apply for Educational Counseling
       </h2>
 
       {error && (

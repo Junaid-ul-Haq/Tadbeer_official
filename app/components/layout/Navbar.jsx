@@ -122,13 +122,17 @@ export default function Navbar() {
               </button>
 
               <div className="absolute left-0 mt-3 w-56 bg-[var(--surface-color)] border border-white/10 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                {["Scholarships", "Grants", "Consultation"].map((item) => (
+                {[
+                  { label: "Educational Counseling", path: "/user/scholarships" },
+                  { label: "Entrepreneur Incubation", path: "/user/grants" },
+                  { label: "Career Counseling", path: "/user/consultation" }
+                ].map((item) => (
                   <Link
-                    key={item}
-                    href={`/user/${item.toLowerCase().replace(" ", "-")}`}
+                    key={item.path}
+                    href={item.path}
                     className="block px-6 py-3 text-base font-medium text-[var(--text-color)] hover:bg-[var(--accent-color)] hover:text-white transition-colors rounded-md"
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 ))}
               </div>

@@ -13,7 +13,7 @@ export default function PaymentPage() {
   const router = useRouter();
   const { user, token, isLoggedIn } = useSelector((state) => state.auth);
 
-  const [amount, setAmount] = useState(null); // 2500 or 5000
+  const [amount, setAmount] = useState(2500); // Fixed at 2500 (discounted from 5000)
   const [screenshot, setScreenshot] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -80,7 +80,6 @@ export default function PaymentPage() {
       await paymentService.createPayment(token, formData);
       toast.success("Payment submitted successfully! Please wait for admin verification.");
       setPaymentStatus("pending");
-      setAmount(null);
       setScreenshot(null);
       e.target.reset();
     } catch (err) {
@@ -172,34 +171,24 @@ export default function PaymentPage() {
         {/* Payment Form */}
         {paymentStatus !== "verified" && (
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Amount Selection */}
+            {/* Payment Amount Display */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-3">
-                Select Amount <span className="text-red-400">*</span>
+                Payment Amount <span className="text-red-400">*</span>
               </label>
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setAmount(2500)}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    amount === 2500
-                      ? "border-[var(--primary-color)] bg-[var(--primary-color)]/20 text-[var(--primary-color)]"
-                      : "border-white/10 hover:border-white/30 text-gray-300"
-                  }`}
-                >
-                  <div className="text-2xl font-bold">PKR 2,500</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setAmount(5000)}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    amount === 5000
-                      ? "border-[var(--primary-color)] bg-[var(--primary-color)]/20 text-[var(--primary-color)]"
-                      : "border-white/10 hover:border-white/30 text-gray-300"
-                  }`}
-                >
-                  <div className="text-2xl font-bold">PKR 5,000</div>
-                </button>
+              <div className="bg-gradient-to-br from-[var(--primary-color)]/20 to-[var(--accent-color)]/20 border-2 border-[var(--primary-color)]/30 rounded-xl p-6 text-center relative">
+                <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  DISCOUNT
+                </div>
+                <div className="text-xl text-gray-400 line-through mb-2">
+                  PKR 5,000
+                </div>
+                <div className="text-4xl font-bold text-[var(--primary-color)] mb-2">
+                  PKR 2,500
+                </div>
+                <div className="text-sm text-green-400 font-medium">
+                  Save PKR 2,500
+                </div>
               </div>
             </div>
 

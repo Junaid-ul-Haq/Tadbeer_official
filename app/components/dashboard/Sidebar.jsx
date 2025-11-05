@@ -27,19 +27,18 @@ export default function Sidebar({ role }) {
   // Menu for User
   const userMenu = [
     { name: "Overview", icon: LayoutDashboard, path: "/user" },
-    { name: "Scholarships", icon: GraduationCap, path: "/user/scholarships" },
-    { name: "Grants", icon: Briefcase, path: "/user/grants" },
-    { name: "Consultations", icon: MessageSquare, path: "/user/consultation" },
+    { name: "Educational Counseling", icon: GraduationCap, path: "/user/scholarships" },
+    { name: "Entrepreneur Incubation", icon: Briefcase, path: "/user/grants" },
+    { name: "Career Counseling", icon: MessageSquare, path: "/user/consultation" },
     { name: "Profile", icon: User, path: "/user/profile" },
   ];
 
   // Menu for Admin
   const adminMenu = [
-    { name: "Overview", icon: LayoutDashboard, path: "/admin" },
     { name: "Manage Users", icon: Users, path: "/admin/manage-users" },
-    { name: "Scholarships", icon: GraduationCap, path: "/admin/scholarships" },
-    { name: "Business Grants", icon: Briefcase, path: "/admin/grants" },
-    { name: "Consultations", icon: ClipboardList, path: "/admin/consultation" },
+    { name: "Educational Counseling", icon: GraduationCap, path: "/admin/scholarships" },
+    { name: "Entrepreneur Incubation", icon: Briefcase, path: "/admin/grants" },
+    { name: "Career Counseling", icon: ClipboardList, path: "/admin/consultation" },
     { name: "Payments", icon: Wallet, path: "/admin/payments" },
   ];
 

@@ -65,7 +65,7 @@ export default function UserDashboard() {
   return (
     <div className="p-6 font-[var(--font-family)] text-[var(--text-color)]">
       <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
-        <h1 className="text-3xl font-bold">Available Scholarships</h1>
+        <h1 className="text-3xl font-bold">Available Educational Counseling</h1>
         <p className="text-gray-400 text-sm">
           View all your applications in the{" "}
           <a href="/user" className="text-[var(--primary-color)] hover:underline">
@@ -99,7 +99,7 @@ export default function UserDashboard() {
               : "text-gray-400 hover:text-gray-300"
           }`}
         >
-          All Available Scholarships
+          All Available Educational Counseling
           {allOpportunities.length > 0 && (
             <span className="ml-2 px-2 py-0.5 bg-gray-500/20 text-gray-400 rounded-full text-xs">
               {allOpportunities.length}
@@ -108,7 +108,7 @@ export default function UserDashboard() {
         </button>
       </div>
 
-      {/* Recommended Scholarships Tab */}
+      {/* Recommended Educational Counseling Tab */}
       {activeTab === "recommended" && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -144,14 +144,14 @@ export default function UserDashboard() {
                 onClick={() => setActiveTab("all")}
                 className="px-6 py-2 bg-[var(--primary-color)] text-black rounded-lg font-semibold hover:opacity-90 transition-all"
               >
-                View All Scholarships
+                View All Educational Counseling
               </button>
             </div>
           )}
         </motion.div>
       )}
 
-      {/* All Scholarships Tab */}
+      {/* All Educational Counseling Tab */}
       {activeTab === "all" && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}

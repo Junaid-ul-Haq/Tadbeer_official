@@ -59,7 +59,7 @@ export default function GrantForm({ onSuccess }) {
       className="flex flex-col gap-4 p-6 bg-white rounded-xl shadow-md max-w-lg mx-auto"
     >
       <h2 className="text-xl font-bold text-center text-[var(--primary-color)]">
-        Apply for Business Grant
+        Apply for Entrepreneur Incubation
       </h2>
 
       <input

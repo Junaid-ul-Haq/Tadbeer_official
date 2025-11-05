@@ -10,9 +10,12 @@ import Link from "next/link";
 export default function UserHome() {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
+  const user = useSelector((state) => state.auth.user);
   const { userScholarships, loading: scholarshipsLoading } = useSelector((state) => state.scholarship);
   const { myGrants, loading: grantsLoading } = useSelector((state) => state.businessGrant);
   const { userConsultations, loading: consultationsLoading } = useSelector((state) => state.consultation);
+  
+  const creditHours = user?.creditHours ?? user?.chancesLeft ?? 0;
 
   useEffect(() => {
     if (token) {
@@ -55,8 +58,30 @@ export default function UserHome() {
         </p>
       </motion.div>
 
+      {/* Credit Hours Alert */}
+      {creditHours === 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6 bg-yellow-500/20 border border-yellow-500/50 rounded-xl p-4"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-bold text-yellow-400 mb-1">No Credit Hours Remaining</h3>
+              <p className="text-gray-300">You need to make a payment to get 3 credit hours for applications.</p>
+            </div>
+            <Link
+              href="/payment"
+              className="px-4 py-2 bg-[var(--primary-color)] text-white rounded-lg hover:bg-[var(--accent-color)] transition"
+            >
+              Make Payment
+            </Link>
+          </div>
+        </motion.div>
+      )}
+
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -78,7 +103,7 @@ export default function UserHome() {
           <h3 className="text-3xl font-bold text-blue-400 mb-2">
             {userScholarships?.length || 0}
           </h3>
-          <p className="text-gray-300">Scholarships</p>
+          <p className="text-gray-300">Educational Counseling</p>
         </motion.div>
 
         <motion.div
@@ -90,7 +115,7 @@ export default function UserHome() {
           <h3 className="text-3xl font-bold text-green-400 mb-2">
             {myGrants?.length || 0}
           </h3>
-          <p className="text-gray-300">Business Grants</p>
+          <p className="text-gray-300">Entrepreneur Incubation</p>
         </motion.div>
 
         <motion.div
@@ -102,7 +127,20 @@ export default function UserHome() {
           <h3 className="text-3xl font-bold text-purple-400 mb-2">
             {userConsultations?.length || 0}
           </h3>
-          <p className="text-gray-300">Consultations</p>
+          <p className="text-gray-300">Career Counseling</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="bg-gradient-to-br from-[var(--accent-color)]/20 to-[var(--primary-color)]/20 p-6 rounded-xl border border-[var(--accent-color)]/30"
+        >
+          <h3 className="text-3xl font-bold text-[var(--accent-color)] mb-2">
+            {creditHours}
+          </h3>
+          <p className="text-gray-300">Credit Hours</p>
+          <p className="text-xs text-gray-400 mt-1">For Entrepreneur Incubation & Educational Counseling</p>
         </motion.div>
       </div>
 
@@ -116,7 +154,7 @@ export default function UserHome() {
           className="bg-[#1A1A1A]/60 rounded-xl border border-white/10 p-6"
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-blue-400">Scholarship Applications</h2>
+            <h2 className="text-2xl font-bold text-blue-400">Educational Counseling Applications</h2>
             <Link
               href="/user/scholarships"
               className="text-sm text-[var(--primary-color)] hover:underline"
@@ -127,7 +165,7 @@ export default function UserHome() {
           {scholarshipsLoading ? (
             <p className="text-gray-400">Loading...</p>
           ) : userScholarships?.length === 0 ? (
-            <p className="text-gray-400">No scholarship applications yet</p>
+            <p className="text-gray-400">No educational counseling applications yet</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -167,7 +205,7 @@ export default function UserHome() {
           className="bg-[#1A1A1A]/60 rounded-xl border border-white/10 p-6"
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-green-400">Business Grant Applications</h2>
+            <h2 className="text-2xl font-bold text-green-400">Entrepreneur Incubation Applications</h2>
             <Link
               href="/user/grants"
               className="text-sm text-[var(--primary-color)] hover:underline"
@@ -178,7 +216,7 @@ export default function UserHome() {
           {grantsLoading ? (
             <p className="text-gray-400">Loading...</p>
           ) : myGrants?.length === 0 ? (
-            <p className="text-gray-400">No grant applications yet</p>
+            <p className="text-gray-400">No entrepreneur incubation applications yet</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -220,7 +258,7 @@ export default function UserHome() {
           className="bg-[#1A1A1A]/60 rounded-xl border border-white/10 p-6"
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-purple-400">Consultation Requests</h2>
+            <h2 className="text-2xl font-bold text-purple-400">Career Counseling Requests</h2>
             <Link
               href="/user/consultation"
               className="text-sm text-[var(--primary-color)] hover:underline"
@@ -231,7 +269,7 @@ export default function UserHome() {
           {consultationsLoading ? (
             <p className="text-gray-400">Loading...</p>
           ) : userConsultations?.length === 0 ? (
-            <p className="text-gray-400">No consultation requests yet</p>
+            <p className="text-gray-400">No career counseling requests yet</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">

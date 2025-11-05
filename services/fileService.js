@@ -3,7 +3,7 @@ import axios from "axios";
 // Fetches a protected file and returns a blob URL
 export const fetchSecureFile = async (filePath, token) => {
   try {
-    const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://tadbeerresource.com";
+    const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? "http://localhost:4000" : "https://api.tadbeerresource.com");
     const url = `${BASE_URL}${filePath}`;
     console.log("Fetching secure file:", { base: BASE_URL, filePath, url });
 
@@ -48,7 +48,7 @@ export const openProtectedFile = async (filePath, token) => {
     }
 
     // Use the authenticated API route: /api/files/:folder/:filename
-    const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://tadbeerresource.com";
+    const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? "http://localhost:4000" : "https://api.tadbeerresource.com");
     const url = `${BASE_URL}/api/files/${folder}/${filename}`;
     console.log("🔹 Fetching protected file from:", url);
     console.log("🔹 Original filePath:", filePath);

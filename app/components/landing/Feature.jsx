@@ -12,7 +12,7 @@ export default function Features() {
       icon: (
         <FaGraduationCap className="text-[var(--accent-color)] text-5xl mb-4 drop-shadow-[0_0_15px_rgba(24,186,214,0.8)]" />
       ),
-      title: "Scholarships",
+      title: "Educational Counseling",
       text: "Empowering students with access to quality education and brighter futures.",
       link: "#scholarships",
     },
@@ -20,7 +20,7 @@ export default function Features() {
       icon: (
         <FaHandshake className="text-[var(--primary-color)] text-5xl mb-4 drop-shadow-[0_0_12px_rgba(143,194,65,0.8)]" />
       ),
-      title: "Consultations",
+      title: "Career Counseling",
       text: "Guiding individuals with personalized support for education and careers.",
       link: "#consultations",
     },
@@ -28,7 +28,7 @@ export default function Features() {
       icon: (
         <FaBriefcase className="text-[var(--accent-color)] text-5xl mb-4 drop-shadow-[0_0_15px_rgba(24,186,214,0.8)]" />
       ),
-      title: "Business Grants",
+      title: "Entrepreneur Incubation",
       text: "Supporting small businesses and entrepreneurs to create lasting impact.",
       link: "#grants",
     },

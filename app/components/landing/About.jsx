@@ -123,7 +123,7 @@ export default function AboutUs() {
       icon: (
         <FaHeart className="text-4xl md:text-5xl text-red-400 mb-4 drop-shadow-[0_0_12px_rgba(255,80,80,0.7)]" />
       ),
-      desc: "Integrity, compassion, and empowerment guide every action we take in our mission to serve humanity.",
+      desc: "Integrity, compassion, and empowerment guide every action we take in our mission to serve community.",
     },
   ];
 
@@ -166,7 +166,7 @@ export default function AboutUs() {
   useEffect(() => {
     const fetchGlobalImpact = async () => {
       try {
-        const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://tadbeerresource.com";
+        const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || (window.location.hostname === 'localhost' ? "http://localhost:4000" : "https://api.tadbeerresource.com");
         // Only fetch if we're on the client side and API URL is available
         if (typeof window === 'undefined') return;
         
@@ -235,7 +235,7 @@ export default function AboutUs() {
   const journeyData = [
     {
       year: "2012",
-      text: "Established the Saleemah Khanum Welfare Foundation with a vision to serve the community and promote social welfare.",
+      text: "Established Saleemah Khanum Welfare Foundation with a vision to serve community and promote social welfare.",
     },
     {
       year: "2022",
@@ -251,7 +251,7 @@ export default function AboutUs() {
     },
     {
       year: "2025",
-      text: "Formally introduced the Tadbeer Resource Center, sponsored by the Saleemah Khanum Welfare Foundation, during the seminar \"Hope in Action.\" The event brought together prominent representatives from community service and philanthropic organizations.",
+      text: "Formally introduced Tadbeer Resource Center, sponsored by Saleemah Khanum Welfare Foundation, during seminar \"Hope in Action.\" Event brought together prominent representatives from community service and philanthropic organizations.",
     },
   ];
 
@@ -265,77 +265,82 @@ export default function AboutUs() {
 
   // Team members ordered by rank
   const teamMembers = [
+    // Leadership
     {
-      name: "Mr. Zia ul Haq",
-      designation: "President",
+      name: "Muhammad ZiaUlHaq",
+      designation: "President & Co-Founder",
       rank: 1,
-      image: getTeamImageUrl("Mr Zia ul Haq preident.jpeg"),
+      image: getTeamImageUrl("Mr. Zia ul Haq.jpg"),
     },
+    // Advisory Board
     {
-      name: "Prof. Dr. Akhtar Ali Saleemi",
-      designation: "Vice President",
+      name: "Prof. Dr. Farhat Saleemi",
+      designation: "Chairperson",
       rank: 2,
-      image: getTeamImageUrl("Prof. Dr .Akhtar Ali Saleemi.jpeg"),
+      image: getTeamImageUrl("Prof. Dr. Farhat Saleemi.jpg"),
     },
     {
       name: "Muhammad Saeed Akhtar",
-      designation: "Vice Chairman Advisory Board",
+      designation: "Vice Chairman",
       rank: 3,
-      image: getTeamImageUrl("Saleem Akhtar.jpeg"),
+      image: getTeamImageUrl("Muhammad Saeed Akhtar.jpg"),
+    },
+    {
+      name: "Prof. Dr. Tahira Mughal",
+      designation: "Member Advisory Board",
+      rank: 4,
+      image: getTeamImageUrl("Prof. Dr. Tahira Mugal.jpg"),
+    },
+    {
+      name: "Abdul Ghafir",
+      designation: "Member Advisory Board",
+      rank: 5,
+      image: getTeamImageUrl("Abdul Gaffar.jpg"),
+    },
+    {
+      name: "Prof. Dr. Akhtar Saleemi",
+      designation: "Member Advisory Board",
+      rank: 6,
+      image: getTeamImageUrl("Prof. Dr. Akhtar Ali Saleemi.jpg"),
+    },
+    {
+      name: "Muhammad Tariq",
+      designation: "Member Advisory Board",
+      rank: 7,
+      image: getTeamImageUrl("Muhammad Tariq.jpg"),
     },
     {
       name: "Uzma Kamal",
       designation: "Member Advisory Board",
-      rank: 4,
-      image: getTeamImageUrl("15 uzma kamal.jpg"),
-    },
-    {
-      name: "Abdul Gaffar",
-      designation: "Member Advisory Board",
-      rank: 5,
-      image: getTeamImageUrl("13-abdul gahfir.jpg"),
-    },
-    {
-      name: "Prof. Dr. Farhat Saleemi",
-      designation: "Team Member",
-      rank: 6,
-      image: getTeamImageUrl("Prof. Dr. Farhat Saleemi.jpeg"),
-    },
-    {
-      name: "Prof. Dr. Tahira Mugal",
-      designation: "Team Member",
-      rank: 7,
-      image: getTeamImageUrl("Prof . Dr .Tahira Mugal.jpeg"),
-    },
-    {
-      name: "Dr. Maira Waqas",
-      designation: "Team Member",
       rank: 8,
-      image: getTeamImageUrl("Dr Maira Waqas.jpeg"),
+      image: getTeamImageUrl("Uzma Kamal.jpg"),
     },
+    // Board of Management
     {
-      name: "M. Ata-ul-Haq",
-      designation: "Team Member",
+      name: "Muhammad Ata-ul-Haq",
+      designation: "Treasurer & Head Board of Management",
       rank: 9,
-      image: getTeamImageUrl("M. Ata-ul-Haq.jpeg"),
+      image: getTeamImageUrl("M. Ata-ul-Haq.jpg"),
     },
     {
-      name: "Muhammad Tariq",
-      designation: "Team Member",
+      name: "Noman Nisar",
+      designation: "Goodwill Ambassador",
       rank: 10,
-      image: getTeamImageUrl("Muhammad Tariq.jpeg"),
+      image: getTeamImageUrl("Noman Nasir.jpg"),
+      location: "Norway & Scandinavia",
     },
     {
-      name: "Noman Nasir",
-      designation: "Team Member",
+      name: "Dr. Maria Waqas Ph.D",
+      designation: "Goodwill Ambassador",
       rank: 11,
-      image: getTeamImageUrl("Noman Nasir.jpeg"),
+      image: getTeamImageUrl("Dr. Maira Waqas.jpg"),
+      location: "UAE & Middle East",
     },
     {
       name: "Abdul Manan",
       designation: "Social Media & Outreach Associate",
       rank: 12,
-      image: getTeamImageUrl("14.jpg"),
+      image: getTeamImageUrl("Abdul Manan.jpg"),
     },
   ];
 
@@ -421,7 +426,7 @@ export default function AboutUs() {
         </div>
       </motion.div>
 
-      {/* 🔹 Team Members Section */}
+      {/* 🔹 Leadership Board Section (First 8 members) */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
@@ -430,10 +435,10 @@ export default function AboutUs() {
         className="mb-20 max-w-7xl mx-auto"
       >
         <h3 className="text-3xl md:text-4xl font-semibold text-center text-[var(--primary-color)] drop-shadow-[0_0_15px_rgba(143,194,65,0.6)] mb-12">
-          Our Team
+          Leadership Board
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {teamMembers.map((member, index) => (
+          {teamMembers.slice(0, 8).map((member, index) => (
             <motion.div
               key={index}
               variants={fadeUp}
@@ -475,6 +480,76 @@ export default function AboutUs() {
                 <p className="text-gray-400 text-sm md:text-base">
                   {member.designation}
                 </p>
+                {member.location && (
+                  <p className="text-gray-500 text-xs mt-1">
+                    {member.location}
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* 🔹 Board of Management Section (Last 4 members) */}
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="mb-20 max-w-7xl mx-auto"
+      >
+        <h3 className="text-3xl md:text-4xl font-semibold text-center text-[var(--primary-color)] drop-shadow-[0_0_15px_rgba(143,194,65,0.6)] mb-12">
+          Board of Management
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {teamMembers.slice(8).map((member, index) => (
+            <motion.div
+              key={index + 8}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              className="bg-[#101010]/90 border border-white/10 rounded-2xl p-6 shadow-[0_0_25px_rgba(143,194,65,0.15)] backdrop-blur-lg transition-all duration-300 hover:shadow-[0_0_40px_rgba(143,194,65,0.3)]"
+            >
+              <div className="flex justify-center mb-4">
+                <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(143,194,65,0.25)] bg-[#1a1a1a]">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Try fallback image
+                      if (e.target.src !== "/vedios/abc.jpeg") {
+                        e.target.src = "/vedios/abc.jpeg";
+                      } else {
+                        // If fallback also fails, show placeholder
+                        e.target.style.display = "none";
+                        e.target.parentElement.innerHTML = `
+                          <div class="w-full h-full flex items-center justify-center text-gray-500">
+                            <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="text-center">
+                <h4 className="text-xl md:text-2xl font-semibold text-[var(--primary-color)] mb-2">
+                  {member.name}
+                </h4>
+                <p className="text-gray-400 text-sm md:text-base">
+                  {member.designation}
+                </p>
+                {member.location && (
+                  <p className="text-gray-500 text-xs mt-1">
+                    {member.location}
+                  </p>
+                )}
               </div>
             </motion.div>
           ))}

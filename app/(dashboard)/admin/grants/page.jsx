@@ -124,10 +124,10 @@ export default function AdminGrantDashboard() {
         className="mb-10"
       >
         <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent">
-          Business Grant Management
+          Entrepreneur Incubation Management
         </h1>
         <p className="text-gray-400 text-center mt-2">
-          Manage applications and grant opportunities
+          Manage applications and entrepreneur incubation opportunities
         </p>
       </motion.div>
 
@@ -341,7 +341,7 @@ export default function AdminGrantDashboard() {
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-[var(--outline-color)] shrink-0">
           <h2 className="text-3xl font-bold text-[var(--primary-color)]">
-            Business Grant Details
+            Entrepreneur Incubation Details
           </h2>
           <button
             onClick={() => setShowDetail(false)}
