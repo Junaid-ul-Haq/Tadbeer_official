@@ -44,7 +44,7 @@ export default function AdminConsultationDashboard() {
 
   return (
     <div className="p-6 font-[var(--font-family)] text-[var(--text-color)]">
-      <h1 className="text-3xl font-bold mb-6">All Career Counseling</h1>
+      <h1 className="text-3xl font-bold mb-6">All Career Pathways</h1>
 
       {/* Pagination Controls */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
@@ -120,7 +120,7 @@ export default function AdminConsultationDashboard() {
               {/* Header */}
               <div className="flex justify-between items-center p-6 border-b border-[var(--outline-color)]">
                 <h2 className="text-3xl font-bold text-[var(--primary-color)]">
-                  Career Counseling Details
+                  Career Pathways Details
                 </h2>
                 <button
                   onClick={() => setShowDetail(false)}

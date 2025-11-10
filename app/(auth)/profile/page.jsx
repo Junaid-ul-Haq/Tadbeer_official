@@ -21,11 +21,16 @@ export default function CompleteProfilePage() {
       return;
     }
 
+    // ✅ Admins should not access profile page - redirect to admin panel
+    if (user?.role === "admin") {
+      router.push("/admin");
+      return;
+    }
+
     // If profile is already completed, redirect to dashboard
     if (user?.profileCompleted) {
       toast.success("Profile already completed!");
-      const dashboardPath = user.role === "admin" ? "/admin" : "/user";
-      router.push(dashboardPath);
+      router.push("/payment");
       return;
     }
   }, [isLoggedIn, token, user, router]);

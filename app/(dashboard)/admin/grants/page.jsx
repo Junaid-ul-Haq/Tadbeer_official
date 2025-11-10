@@ -124,10 +124,10 @@ export default function AdminGrantDashboard() {
         className="mb-10"
       >
         <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent">
-          Entrepreneur Incubation Management
+          Startup and Innovation Hub Management
         </h1>
         <p className="text-gray-400 text-center mt-2">
-          Manage applications and entrepreneur incubation opportunities
+          Manage applications and startup and innovation hub opportunities
         </p>
       </motion.div>
 

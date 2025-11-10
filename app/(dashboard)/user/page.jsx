@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { fetchUserScholarships } from "@/redux/slices/scholarshipSlice";
 import { getMyGrants } from "@/redux/slices/businessGrantSlice";
 import { fetchUserConsultations } from "@/redux/slices/consultationSlice";
+import { updateUserData } from "@/redux/slices/authSlice";
+import authService from "@/services/authService";
 import Link from "next/link";
 
 export default function UserHome() {
@@ -17,6 +19,29 @@ export default function UserHome() {
   
   const creditHours = user?.creditHours ?? user?.chancesLeft ?? 0;
 
+  // Refresh user data when dashboard loads to get latest payment status
+  useEffect(() => {
+    const refreshUserData = async () => {
+      if (token) {
+        try {
+          const userData = await authService.getCurrentUser(token);
+          if (userData.user) {
+            dispatch(updateUserData({ user: userData.user }));
+          }
+        } catch (error) {
+          // If user is deleted (401), the interceptor will handle logout
+          if (error.response?.status === 401) {
+            // User will be automatically logged out by axios interceptor
+            return;
+          }
+          console.error("Failed to refresh user data:", error);
+        }
+      }
+    };
+    
+    refreshUserData();
+  }, [token, dispatch]);
+
   useEffect(() => {
     if (token) {
       dispatch(fetchUserScholarships(token));
@@ -25,14 +50,15 @@ export default function UserHome() {
     }
   }, [token, dispatch]);
 
-  // Auto-refresh every 5 seconds
+  // Auto-refresh every 30 seconds (reduced frequency to avoid spam)
   useEffect(() => {
     if (token) {
       const interval = setInterval(() => {
-        dispatch(fetchUserScholarships(token));
-        dispatch(getMyGrants(token));
-        dispatch(fetchUserConsultations(token));
-      }, 5000);
+        // Silently refresh data - errors are handled in services
+        dispatch(fetchUserScholarships(token)).catch(() => {});
+        dispatch(getMyGrants(token)).catch(() => {});
+        dispatch(fetchUserConsultations(token)).catch(() => {});
+      }, 30000); // Changed from 5000 to 30000 (30 seconds)
       return () => clearInterval(interval);
     }
   }, [token, dispatch]);
@@ -58,8 +84,8 @@ export default function UserHome() {
         </p>
       </motion.div>
 
-      {/* Credit Hours Alert */}
-      {creditHours === 0 && (
+      {/* Credit Hours Alert - Only show if payment is not verified */}
+      {creditHours === 0 && !user?.paymentVerified && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -112,10 +138,10 @@ export default function UserHome() {
           transition={{ delay: 0.3 }}
           className="bg-[#1A1A1A]/60 p-6 rounded-xl border border-white/10"
         >
-          <h3 className="text-3xl font-bold text-green-400 mb-2">
-            {myGrants?.length || 0}
+          <h3 className="text-3xl font-bold text-purple-400 mb-2">
+            {userConsultations?.length || 0}
           </h3>
-          <p className="text-gray-300">Entrepreneur Incubation</p>
+          <p className="text-gray-300">Career Pathways</p>
         </motion.div>
 
         <motion.div
@@ -124,10 +150,10 @@ export default function UserHome() {
           transition={{ delay: 0.4 }}
           className="bg-[#1A1A1A]/60 p-6 rounded-xl border border-white/10"
         >
-          <h3 className="text-3xl font-bold text-purple-400 mb-2">
-            {userConsultations?.length || 0}
+          <h3 className="text-3xl font-bold text-green-400 mb-2">
+            {myGrants?.length || 0}
           </h3>
-          <p className="text-gray-300">Career Counseling</p>
+          <p className="text-gray-300">Startup and Innovation Hub</p>
         </motion.div>
 
         <motion.div
@@ -140,7 +166,7 @@ export default function UserHome() {
             {creditHours}
           </h3>
           <p className="text-gray-300">Credit Hours</p>
-          <p className="text-xs text-gray-400 mt-1">For Entrepreneur Incubation & Educational Counseling</p>
+          <p className="text-xs text-gray-400 mt-1">For Startup and Innovation Hub & Educational Counseling</p>
         </motion.div>
       </div>
 
@@ -205,7 +231,7 @@ export default function UserHome() {
           className="bg-[#1A1A1A]/60 rounded-xl border border-white/10 p-6"
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-green-400">Entrepreneur Incubation Applications</h2>
+            <h2 className="text-2xl font-bold text-green-400">Startup and Innovation Hub Applications</h2>
             <Link
               href="/user/grants"
               className="text-sm text-[var(--primary-color)] hover:underline"
@@ -216,7 +242,7 @@ export default function UserHome() {
           {grantsLoading ? (
             <p className="text-gray-400">Loading...</p>
           ) : myGrants?.length === 0 ? (
-            <p className="text-gray-400">No entrepreneur incubation applications yet</p>
+            <p className="text-gray-400">No startup and innovation hub applications yet</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -258,7 +284,7 @@ export default function UserHome() {
           className="bg-[#1A1A1A]/60 rounded-xl border border-white/10 p-6"
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-purple-400">Career Counseling Requests</h2>
+            <h2 className="text-2xl font-bold text-purple-400">Career Pathways Requests</h2>
             <Link
               href="/user/consultation"
               className="text-sm text-[var(--primary-color)] hover:underline"
@@ -269,7 +295,7 @@ export default function UserHome() {
           {consultationsLoading ? (
             <p className="text-gray-400">Loading...</p>
           ) : userConsultations?.length === 0 ? (
-            <p className="text-gray-400">No career counseling requests yet</p>
+            <p className="text-gray-400">No career pathways requests yet</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">

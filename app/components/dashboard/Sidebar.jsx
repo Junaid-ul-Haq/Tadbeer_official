@@ -9,7 +9,6 @@ import {
   GraduationCap,
   Briefcase,
   MessageSquare,
-  User,
   Users,
   ClipboardList,
   Wallet,
@@ -28,17 +27,16 @@ export default function Sidebar({ role }) {
   const userMenu = [
     { name: "Overview", icon: LayoutDashboard, path: "/user" },
     { name: "Educational Counseling", icon: GraduationCap, path: "/user/scholarships" },
-    { name: "Entrepreneur Incubation", icon: Briefcase, path: "/user/grants" },
-    { name: "Career Counseling", icon: MessageSquare, path: "/user/consultation" },
-    { name: "Profile", icon: User, path: "/user/profile" },
+    { name: "Career Pathways", icon: MessageSquare, path: "/user/consultation" },
+    { name: "Startup and Innovation Hub", icon: Briefcase, path: "/user/grants" },
   ];
 
   // Menu for Admin
   const adminMenu = [
     { name: "Manage Users", icon: Users, path: "/admin/manage-users" },
     { name: "Educational Counseling", icon: GraduationCap, path: "/admin/scholarships" },
-    { name: "Entrepreneur Incubation", icon: Briefcase, path: "/admin/grants" },
-    { name: "Career Counseling", icon: ClipboardList, path: "/admin/consultation" },
+    { name: "Career Pathways", icon: ClipboardList, path: "/admin/consultation" },
+    { name: "Startup and Innovation Hub", icon: Briefcase, path: "/admin/grants" },
     { name: "Payments", icon: Wallet, path: "/admin/payments" },
   ];
 

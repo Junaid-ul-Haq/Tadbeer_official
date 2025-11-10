@@ -101,6 +101,33 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       localStorage.removeItem("user");
     },
+
+    // ✅ Update user payment status (when payment is verified)
+    updatePaymentStatus: (state, action) => {
+      if (state.user) {
+        state.user.paymentVerified = action.payload.paymentVerified;
+        state.user.creditHours = action.payload.creditHours ?? state.user.creditHours;
+        // Update localStorage
+        const stored = JSON.parse(localStorage.getItem("user") || "{}");
+        if (stored.token) {
+          stored.user = state.user;
+          localStorage.setItem("user", JSON.stringify(stored));
+        }
+      }
+    },
+
+    // ✅ Update user data (refresh from backend)
+    updateUserData: (state, action) => {
+      if (action.payload.user) {
+        state.user = action.payload.user;
+        // Update localStorage
+        const stored = JSON.parse(localStorage.getItem("user") || "{}");
+        if (stored.token) {
+          stored.user = action.payload.user;
+          localStorage.setItem("user", JSON.stringify(stored));
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -152,5 +179,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, loginSuccess, hydrate } = authSlice.actions;
+export const { logout, loginSuccess, hydrate, updatePaymentStatus, updateUserData } = authSlice.actions;
 export default authSlice.reducer;

@@ -7,8 +7,12 @@ export const fetchUserScholarships = createAsyncThunk(
   async (token, thunkAPI) => {
     try {
       const res = await scholarshipService.getMyScholarships(token);
-      return res.applications || [];
+      return res.applications || res.scholarships || [];
     } catch (error) {
+      // Silently handle connection errors (backend not running)
+      if (error.message?.includes('Failed to fetch') || error.message?.includes('ERR_CONNECTION_REFUSED')) {
+        return []; // Return empty array instead of rejecting
+      }
       return thunkAPI.rejectWithValue(error.message || "Failed to fetch scholarships");
     }
   }

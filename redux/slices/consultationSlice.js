@@ -22,6 +22,10 @@ export const fetchUserConsultations = createAsyncThunk(
       const res = await consultationService.getMyConsultations(token);
       return res;
     } catch (error) {
+      // Silently handle connection errors (backend not running)
+      if (error.message?.includes('Failed to fetch') || error.message?.includes('ERR_CONNECTION_REFUSED')) {
+        return []; // Return empty array instead of rejecting
+      }
       return thunkAPI.rejectWithValue(error.message);
     }
   }

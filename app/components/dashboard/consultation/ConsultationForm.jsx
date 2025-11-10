@@ -40,7 +40,7 @@ export default function ConsultationForm({ onSuccess }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6 bg-[var(--surface-color)] rounded-xl shadow-md">
-      <h2 className="text-xl font-bold text-center text-[var(--primary-color)]">Request Career Counseling</h2>
+      <h2 className="text-xl font-bold text-center text-[var(--primary-color)]">Request Career Pathways</h2>
       {error && <p className="text-red-500">{error}</p>}
       {success && <p className="text-green-500">{success}</p>}
 

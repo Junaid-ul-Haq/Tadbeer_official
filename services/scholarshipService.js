@@ -37,13 +37,27 @@ export const scholarshipService = {
   },
 
   getMyScholarships: async (token) => {
-    const res = await fetch(`${BASE_URL}/scholarship/getMyScholarships`, {
-      headers: { Authorization: `Bearer ${token}` },
-      credentials: "include",
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.message || "Failed to fetch your scholarships");
-    return data;
+    try {
+      const res = await fetch(`${BASE_URL}/scholarship/getMyScholarships`, {
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
+      }).catch(() => null); // Catch network errors at fetch level
+      
+      if (!res) {
+        // Backend not available - return empty data
+        return { scholarships: [] };
+      }
+      
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || "Failed to fetch your scholarships");
+      return data;
+    } catch (error) {
+      // Silently handle connection errors (backend not running)
+      if (!error.message || error.message.includes('Failed to fetch') || error.message.includes('ERR_CONNECTION_REFUSED') || error.name === 'TypeError') {
+        return { scholarships: [] }; // Return empty array instead of throwing
+      }
+      throw error;
+    }
   },
 
   getAllScholarships: async (token, page = 1, limit = 10) => {

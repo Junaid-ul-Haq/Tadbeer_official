@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import { Search, User, Mail, Phone, MapPin, Calendar, FileText, CheckCircle, XCircle, Clock } from "lucide-react";
+import { Search, User, Mail, Phone, MapPin, Calendar, FileText, CheckCircle, XCircle, Clock, Trash2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 export default function ManageUsersPage() {
@@ -80,6 +80,50 @@ export default function ManageUsersPage() {
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
     setPage(1); // Reset to first page on search
+  };
+
+  const handleDeleteUser = async (userId, userName) => {
+    // Confirmation dialog
+    const confirmed = window.confirm(
+      `⚠️ WARNING: This will permanently delete user "${userName}" and ALL their data including:\n\n` +
+      `• All scholarship applications\n` +
+      `• All business grant applications\n` +
+      `• All consultation requests\n` +
+      `• Payment records\n` +
+      `• All uploaded files\n` +
+      `• The user will be automatically logged out if they are currently logged in\n\n` +
+      `This action CANNOT be undone!\n\n` +
+      `Are you sure you want to delete this user?`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? "http://localhost:4000" : "https://api.tadbeerresource.com");
+      const response = await fetch(`${BASE_URL}/auth/users/${userId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        toast.success(`User "${userName}" deleted successfully. They will be logged out automatically.`);
+        // Refresh users list
+        fetchUsers();
+        // Close modal if open
+        if (selectedUser === userId) {
+          setSelectedUser(null);
+          setUserDetails(null);
+        }
+      } else {
+        toast.error(data.message || "Failed to delete user");
+      }
+    } catch (error) {
+      toast.error("Error deleting user");
+      console.error(error);
+    }
   };
 
   const getStatusBadge = (status) => {
@@ -239,6 +283,21 @@ export default function ManageUsersPage() {
               <div className="p-8 text-center text-gray-400">Loading details...</div>
             ) : (
               <div className="p-6 space-y-6">
+                {/* Delete User Button */}
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => {
+                      if (userDetails?.user) {
+                        handleDeleteUser(userDetails.user._id, userDetails.user.name);
+                        setSelectedUser(null);
+                      }
+                    }}
+                    className="px-4 py-2 bg-red-500/20 border border-red-500/50 text-red-400 rounded-lg hover:bg-red-500/30 transition flex items-center gap-2"
+                  >
+                    <Trash2 size={18} />
+                    Delete User Permanently
+                  </button>
+                </div>
                 {/* User Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-[var(--background-color)] p-4 rounded-lg">

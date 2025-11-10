@@ -108,7 +108,7 @@ export default function Navbar() {
 
             {/* Services Dropdown */}
             <div className="relative group">
-              <button className="flex items-center gap-1 hover:text-[var(--accent-color)] transition-colors text-lg">
+              <button className="flex items-center gap-1 text-[var(--text-color)] hover:text-[var(--accent-color)] transition-colors text-lg font-semibold">
                 Services
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -121,16 +121,16 @@ export default function Navbar() {
                 </svg>
               </button>
 
-              <div className="absolute left-0 mt-3 w-56 bg-[var(--surface-color)] border border-white/10 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+              <div className="absolute left-0 mt-3 w-64 bg-[var(--surface-color)] border border-white/10 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                 {[
                   { label: "Educational Counseling", path: "/user/scholarships" },
-                  { label: "Entrepreneur Incubation", path: "/user/grants" },
-                  { label: "Career Counseling", path: "/user/consultation" }
+                  { label: "Career Pathways", path: "/user/consultation" },
+                  { label: "Startup and Innovation Hub", path: "/user/grants" }
                 ].map((item) => (
                   <Link
                     key={item.path}
                     href={item.path}
-                    className="block px-6 py-3 text-base font-medium text-[var(--text-color)] hover:bg-[var(--accent-color)] hover:text-white transition-colors rounded-md"
+                    className="block px-6 py-3 text-base font-medium text-[var(--text-color)] hover:bg-[var(--accent-color)] hover:text-white transition-colors rounded-md whitespace-nowrap"
                   >
                     {item.label}
                   </Link>

@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { ArrowLeft } from "lucide-react";
 
 export default function SignupPage() {
   const dispatch = useDispatch();
@@ -91,6 +92,14 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-[#050505] via-[#0A0A0A] to-[#111] text-white font-[var(--font-family)] relative overflow-hidden">
+      {/* 🔙 Back Arrow Button */}
+      <Link
+        href="/"
+        className="absolute top-4 left-4 md:top-6 md:left-6 z-50 flex items-center justify-center w-10 h-10 bg-[#0F0F0F]/80 backdrop-blur-sm border border-white/10 rounded-full hover:bg-[#0F0F0F] hover:border-[var(--accent-color)] transition-all duration-300 group"
+      >
+        <ArrowLeft className="w-5 h-5 text-gray-300 group-hover:text-[var(--accent-color)] transition-colors" />
+      </Link>
+
       {/* ✨ Background Glows */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/3 w-[400px] h-[400px] bg-[var(--accent-color)]/10 blur-[120px] rounded-full" />

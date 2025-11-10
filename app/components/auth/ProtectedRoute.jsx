@@ -28,6 +28,14 @@ export default function ProtectedRoute({ allowedRoles = [], children }) {
       !allowedRoles.includes(user?.role)
     ) {
       router.replace("/unauthorized"); // Role not allowed → redirect
+    } else if (
+      // For user dashboard, check if payment is verified
+      allowedRoles.includes("user") &&
+      user?.role === "user" &&
+      !user?.paymentVerified
+    ) {
+      // Payment not verified, redirect to payment page
+      router.replace("/payment");
     } else {
       setChecked(true); // Access granted
     }

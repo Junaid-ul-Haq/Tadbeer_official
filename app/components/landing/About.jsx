@@ -109,7 +109,7 @@ export default function AboutUs() {
       icon: (
         <FaHandsHelping className="text-4xl md:text-5xl text-[var(--primary-color)] mb-4 drop-shadow-[0_0_12px_rgba(143,194,65,0.7)]" />
       ),
-      desc: "Empowering communities through education, healthcare, and sustainable initiatives that build brighter futures.",
+      desc: "Empowering women and youth to grow as confident, skilled, and proud contributors to a thriving community.",
     },
     {
       title: "Our Vision",
@@ -473,8 +473,8 @@ export default function AboutUs() {
                   />
                 </div>
               </div>
-              <div className="text-center">
-                <h4 className="text-xl md:text-2xl font-semibold text-[var(--primary-color)] mb-2">
+              <div className="text-center w-full">
+                <h4 className="text-base md:text-lg font-semibold text-[var(--primary-color)] mb-2 whitespace-nowrap overflow-hidden text-ellipsis max-w-full mx-auto">
                   {member.name}
                 </h4>
                 <p className="text-gray-400 text-sm md:text-base">
@@ -538,8 +538,8 @@ export default function AboutUs() {
                   />
                 </div>
               </div>
-              <div className="text-center">
-                <h4 className="text-xl md:text-2xl font-semibold text-[var(--primary-color)] mb-2">
+              <div className="text-center w-full">
+                <h4 className="text-base md:text-lg font-semibold text-[var(--primary-color)] mb-2 whitespace-nowrap overflow-hidden text-ellipsis max-w-full mx-auto">
                   {member.name}
                 </h4>
                 <p className="text-gray-400 text-sm md:text-base">

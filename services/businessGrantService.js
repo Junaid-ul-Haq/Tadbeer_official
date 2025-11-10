@@ -23,13 +23,27 @@ export const businessGrantService = {
   },
 
   getMyGrants: async (token) => {
-    const res = await fetch(`${BASE_URL}/business/getMyGrants`, {
-      headers: { Authorization: `Bearer ${token}` },
-      credentials: "include",
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.message || "Failed to fetch your grants");
-    return data.grants || [];
+    try {
+      const res = await fetch(`${BASE_URL}/business/getMyGrants`, {
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
+      }).catch(() => null); // Catch network errors at fetch level
+      
+      if (!res) {
+        // Backend not available - return empty data
+        return [];
+      }
+      
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || "Failed to fetch your grants");
+      return data.grants || [];
+    } catch (error) {
+      // Silently handle connection errors (backend not running)
+      if (!error.message || error.message.includes('Failed to fetch') || error.message.includes('ERR_CONNECTION_REFUSED') || error.name === 'TypeError') {
+        return []; // Return empty array instead of throwing
+      }
+      throw error;
+    }
   },
 
   getAllGrants: async (token, page = 1, limit = 10) => {

@@ -18,6 +18,10 @@ export const getMyGrants = createAsyncThunk(
     try {
       return await businessGrantService.getMyGrants(token);
     } catch (error) {
+      // Silently handle connection errors (backend not running)
+      if (error.message?.includes('Failed to fetch') || error.message?.includes('ERR_CONNECTION_REFUSED')) {
+        return []; // Return empty array instead of rejecting
+      }
       return rejectWithValue(error.message);
     }
   }

@@ -158,7 +158,7 @@ export default function Testimonials() {
           loop={true}
           className="pb-12"
         >
-          {teamMembers.map((member, i) => (
+          {teamMembers.slice(0, 8).map((member, i) => (
             <SwiperSlide key={i}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -187,8 +187,8 @@ export default function Testimonials() {
                 </div>
 
                 {/* 🔹 Name & Designation */}
-                <div className="flex-1">
-                  <h3 className="text-xl md:text-2xl font-semibold text-[var(--primary-color)] drop-shadow-[0_0_10px_rgba(143,194,65,0.5)] mb-2">
+                <div className="flex-1 w-full">
+                  <h3 className="text-base md:text-lg font-semibold text-[var(--primary-color)] drop-shadow-[0_0_10px_rgba(143,194,65,0.5)] mb-2 whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
                     {member.name}
                   </h3>
                   <p className="text-sm md:text-base text-[var(--accent-color)] font-medium mb-1">

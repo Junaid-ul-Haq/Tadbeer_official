@@ -20,7 +20,7 @@ export default function Features() {
       icon: (
         <FaHandshake className="text-[var(--primary-color)] text-5xl mb-4 drop-shadow-[0_0_12px_rgba(143,194,65,0.8)]" />
       ),
-      title: "Career Counseling",
+      title: "Career Pathways",
       text: "Guiding individuals with personalized support for education and careers.",
       link: "#consultations",
     },
@@ -28,7 +28,7 @@ export default function Features() {
       icon: (
         <FaBriefcase className="text-[var(--accent-color)] text-5xl mb-4 drop-shadow-[0_0_15px_rgba(24,186,214,0.8)]" />
       ),
-      title: "Entrepreneur Incubation",
+      title: "Startup and Innovation Hub",
       text: "Supporting small businesses and entrepreneurs to create lasting impact.",
       link: "#grants",
     },
@@ -91,7 +91,7 @@ export default function Features() {
             >
               <div className="flex flex-col items-center flex-grow">
                 {service.icon}
-                <h3 className="text-xl sm:text-2xl font-bold mb-3 text-[var(--primary-color)] drop-shadow-[0_0_10px_rgba(143,194,65,0.6)]">
+                <h3 className="text-xl sm:text-2xl font-bold mb-3 text-[var(--primary-color)] drop-shadow-[0_0_10px_rgba(143,194,65,0.6)] whitespace-nowrap">
                   {service.title}
                 </h3>
                 <p className="text-gray-300 mb-6 text-sm sm:text-base leading-relaxed px-1 sm:px-2">
