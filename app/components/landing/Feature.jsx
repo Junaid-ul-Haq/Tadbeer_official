@@ -12,7 +12,7 @@ export default function Features() {
       icon: (
         <FaGraduationCap className="text-[var(--accent-color)] text-5xl mb-4 drop-shadow-[0_0_15px_rgba(24,186,214,0.8)]" />
       ),
-      title: "Educational Counseling",
+      title: "Education and Guidance",
       text: "Empowering students with access to quality education and brighter futures.",
       link: "#scholarships",
     },

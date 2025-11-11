@@ -123,7 +123,7 @@ export default function Navbar() {
 
               <div className="absolute left-0 mt-3 w-64 bg-[var(--surface-color)] border border-white/10 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                 {[
-                  { label: "Educational Counseling", path: "/user/scholarships" },
+                  { label: "Education and Guidance", path: "/user/scholarships" },
                   { label: "Career Pathways", path: "/user/consultation" },
                   { label: "Startup and Innovation Hub", path: "/user/grants" }
                 ].map((item) => (

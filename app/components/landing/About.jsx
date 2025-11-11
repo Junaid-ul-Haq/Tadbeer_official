@@ -270,18 +270,18 @@ export default function AboutUs() {
       name: "Muhammad ZiaUlHaq",
       designation: "President & Co-Founder",
       rank: 1,
-      image: getTeamImageUrl("Mr. Zia ul Haq.jpg"),
+      image: getTeamImageUrl("Zia saab latest.jpg"),
     },
     // Advisory Board
     {
       name: "Prof. Dr. Farhat Saleemi",
-      designation: "Chairperson",
+      designation: "Chairperson Advisory Board",
       rank: 2,
       image: getTeamImageUrl("Prof. Dr. Farhat Saleemi.jpg"),
     },
     {
       name: "Muhammad Saeed Akhtar",
-      designation: "Vice Chairman",
+      designation: "Vice Chairman Advisory Board",
       rank: 3,
       image: getTeamImageUrl("Muhammad Saeed Akhtar.jpg"),
     },
@@ -289,7 +289,7 @@ export default function AboutUs() {
       name: "Prof. Dr. Tahira Mughal",
       designation: "Member Advisory Board",
       rank: 4,
-      image: getTeamImageUrl("Prof. Dr. Tahira Mugal.jpg"),
+      image: getTeamImageUrl("Tahira Muga latest.jpg"),
     },
     {
       name: "Abdul Ghafir",
@@ -301,13 +301,13 @@ export default function AboutUs() {
       name: "Prof. Dr. Akhtar Saleemi",
       designation: "Member Advisory Board",
       rank: 6,
-      image: getTeamImageUrl("Prof. Dr. Akhtar Ali Saleemi.jpg"),
+      image: getTeamImageUrl("Prof. Dr. Akhtar Ali Saleemi latest.jpg"),
     },
     {
       name: "Muhammad Tariq",
       designation: "Member Advisory Board",
       rank: 7,
-      image: getTeamImageUrl("Muhammad Tariq.jpg"),
+      image: getTeamImageUrl("Muhammad Tariq latest.jpg"),
     },
     {
       name: "Uzma Kamal",
@@ -326,7 +326,7 @@ export default function AboutUs() {
       name: "Noman Nisar",
       designation: "Goodwill Ambassador",
       rank: 10,
-      image: getTeamImageUrl("Noman Nasir.jpg"),
+      image: getTeamImageUrl("Noman Nasir latest.jpg"),
       location: "Norway & Scandinavia",
     },
     {

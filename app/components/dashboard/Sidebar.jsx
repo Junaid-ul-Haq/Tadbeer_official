@@ -26,7 +26,7 @@ export default function Sidebar({ role }) {
   // Menu for User
   const userMenu = [
     { name: "Overview", icon: LayoutDashboard, path: "/user" },
-    { name: "Educational Counseling", icon: GraduationCap, path: "/user/scholarships" },
+    { name: "Education and Guidance", icon: GraduationCap, path: "/user/scholarships" },
     { name: "Career Pathways", icon: MessageSquare, path: "/user/consultation" },
     { name: "Startup and Innovation Hub", icon: Briefcase, path: "/user/grants" },
   ];
@@ -34,7 +34,7 @@ export default function Sidebar({ role }) {
   // Menu for Admin
   const adminMenu = [
     { name: "Manage Users", icon: Users, path: "/admin/manage-users" },
-    { name: "Educational Counseling", icon: GraduationCap, path: "/admin/scholarships" },
+    { name: "Education and Guidance", icon: GraduationCap, path: "/admin/scholarships" },
     { name: "Career Pathways", icon: ClipboardList, path: "/admin/consultation" },
     { name: "Startup and Innovation Hub", icon: Briefcase, path: "/admin/grants" },
     { name: "Payments", icon: Wallet, path: "/admin/payments" },

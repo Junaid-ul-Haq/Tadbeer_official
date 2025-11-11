@@ -129,7 +129,7 @@ export default function UserHome() {
           <h3 className="text-3xl font-bold text-blue-400 mb-2">
             {userScholarships?.length || 0}
           </h3>
-          <p className="text-gray-300">Educational Counseling</p>
+          <p className="text-gray-300">Education and Guidance</p>
         </motion.div>
 
         <motion.div
@@ -166,7 +166,7 @@ export default function UserHome() {
             {creditHours}
           </h3>
           <p className="text-gray-300">Credit Hours</p>
-          <p className="text-xs text-gray-400 mt-1">For Startup and Innovation Hub & Educational Counseling</p>
+          <p className="text-xs text-gray-400 mt-1">For Startup and Innovation Hub & Education and Guidance</p>
         </motion.div>
       </div>
 
@@ -180,7 +180,7 @@ export default function UserHome() {
           className="bg-[#1A1A1A]/60 rounded-xl border border-white/10 p-6"
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-blue-400">Educational Counseling Applications</h2>
+            <h2 className="text-2xl font-bold text-blue-400">Education and Guidance Applications</h2>
             <Link
               href="/user/scholarships"
               className="text-sm text-[var(--primary-color)] hover:underline"
@@ -191,7 +191,7 @@ export default function UserHome() {
           {scholarshipsLoading ? (
             <p className="text-gray-400">Loading...</p>
           ) : userScholarships?.length === 0 ? (
-            <p className="text-gray-400">No educational counseling applications yet</p>
+            <p className="text-gray-400">No education and guidance applications yet</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">

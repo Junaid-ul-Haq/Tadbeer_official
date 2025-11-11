@@ -131,10 +131,10 @@ export default function AdminDashboard() {
         className="mb-10"
       >
         <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent">
-          Educational Counseling Management
+          Education and Guidance Management
         </h1>
         <p className="text-gray-400 text-center mt-2">
-          Manage applications and educational counseling opportunities
+          Manage applications and education and guidance opportunities
         </p>
       </motion.div>
 
@@ -158,7 +158,7 @@ export default function AdminDashboard() {
               : "text-gray-400 hover:text-gray-300"
           }`}
         >
-          Educational Counseling Opportunities
+          Education and Guidance Opportunities
         </button>
       </div>
 

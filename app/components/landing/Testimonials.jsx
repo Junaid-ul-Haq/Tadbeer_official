@@ -17,26 +17,26 @@ const teamMembers = [
   {
     name: "Muhammad ZiaUlHaq",
     designation: "President & Co-Founder",
-    image: getTeamImageUrl("Mr. Zia ul Haq.jpg"),
+    image: getTeamImageUrl("Zia saab latest.jpg"),
     description: "Leading with vision and compassion, guiding Tadbeer Resource Center towards greater impact and community empowerment.",
   },
   // Advisory Board
   {
     name: "Prof. Dr. Farhat Saleemi",
-    designation: "Chairperson",
+    designation: "Chairperson Advisory Board",
     image: getTeamImageUrl("Prof. Dr. Farhat Saleemi.jpg"),
     description: "Contributing expertise and dedication to advance our educational and social welfare programs.",
   },
   {
     name: "Muhammad Saeed Akhtar",
-    designation: "Vice Chairman",
+    designation: "Vice Chairman Advisory Board",
     image: getTeamImageUrl("Muhammad Saeed Akhtar.jpg"),
     description: "Strategic leadership and advisory excellence, shaping the foundation's mission with wisdom and insight.",
   },
   {
     name: "Prof. Dr. Tahira Mughal",
     designation: "Member Advisory Board",
-    image: getTeamImageUrl("Prof. Dr. Tahira Mugal.jpg"),
+    image: getTeamImageUrl("Tahira Muga latest.jpg"),
     description: "Passionate advocate for education and community development, making a meaningful difference every day.",
   },
   {
@@ -48,13 +48,13 @@ const teamMembers = [
   {
     name: "Prof. Dr. Akhtar Saleemi",
     designation: "Member Advisory Board",
-    image: getTeamImageUrl("Prof. Dr. Akhtar Ali Saleemi.jpg"),
+    image: getTeamImageUrl("Prof. Dr. Akhtar Ali Saleemi latest.jpg"),
     description: "Dedicated to excellence in education and social development, driving transformative change in our communities.",
   },
   {
     name: "Muhammad Tariq",
     designation: "Member Advisory Board",
-    image: getTeamImageUrl("Muhammad Tariq.jpg"),
+    image: getTeamImageUrl("Muhammad Tariq latest.jpg"),
     description: "Committed to creating opportunities and pathways for success through our various programs.",
   },
   {
@@ -74,7 +74,7 @@ const teamMembers = [
     name: "Noman Nisar",
     designation: "Goodwill Ambassador",
     location: "Norway & Scandinavia",
-    image: getTeamImageUrl("Noman Nasir.jpg"),
+    image: getTeamImageUrl("Noman Nasir latest.jpg"),
     description: "Active contributor to our mission, helping bridge gaps and create lasting positive impact.",
   },
   {
@@ -121,7 +121,7 @@ export default function Testimonials() {
         transition={{ duration: 0.8, delay: 0.1 }}
         className="relative max-w-2xl mx-auto text-gray-300 text-base md:text-lg mb-16 leading-relaxed text-center"
       >
-        Meet our dedicated team members who drive our mission forward — leaders, advisors, and passionate contributors making a difference.
+        Meet the visionaries and mentors whose passion and purpose inspire youth to dream big, act boldly, and make a lasting impact.
       </motion.p>
 
       {/* 🔹 Swiper Slideshow */}
