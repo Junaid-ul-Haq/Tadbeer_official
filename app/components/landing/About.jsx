@@ -267,10 +267,10 @@ export default function AboutUs() {
   const teamMembers = [
     // Leadership
     {
-      name: "Muhammad ZiaUlHaq",
+      name: "Muhammad Zia ul Haq",
       designation: "President & Co-Founder",
       rank: 1,
-      image: getTeamImageUrl("Zia saab latest.jpg"),
+      image: getTeamImageUrl("zia saab latest.jpg"),
     },
     // Advisory Board
     {
@@ -289,7 +289,7 @@ export default function AboutUs() {
       name: "Prof. Dr. Tahira Mughal",
       designation: "Member Advisory Board",
       rank: 4,
-      image: getTeamImageUrl("Tahira Muga latest.jpg"),
+      image: getTeamImageUrl("tahira muga latest.jpg"),
     },
     {
       name: "Abdul Ghafir",

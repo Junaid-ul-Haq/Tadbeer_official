@@ -15,9 +15,9 @@ const getTeamImageUrl = (filename) => {
 const teamMembers = [
   // Leadership
   {
-    name: "Muhammad ZiaUlHaq",
+    name: "Muhammad Zia ul Haq",
     designation: "President & Co-Founder",
-    image: getTeamImageUrl("Zia saab latest.jpg"),
+    image: getTeamImageUrl("zia saab latest.jpg"),
     description: "Leading with vision and compassion, guiding Tadbeer Resource Center towards greater impact and community empowerment.",
   },
   // Advisory Board
@@ -36,7 +36,7 @@ const teamMembers = [
   {
     name: "Prof. Dr. Tahira Mughal",
     designation: "Member Advisory Board",
-    image: getTeamImageUrl("Tahira Muga latest.jpg"),
+    image: getTeamImageUrl("tahira muga latest.jpg"),
     description: "Passionate advocate for education and community development, making a meaningful difference every day.",
   },
   {
